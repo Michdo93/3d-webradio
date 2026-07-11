@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive 3D Spatial Radio</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; font-family: sans-serif; }
+        /* Minimalistisches HUD für Texte, da Text in 3D ohne externe Fonts schwer ist */
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #1db954;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+        #station-name {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            pointer-events: none;
+            text-shadow: 0 0 10px #1db954;
+        }
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="hud">
+    <div>3D Spatial Engine Active</div>
+    <div id="status">Bereit</div>
+</div>
+<div id="station-name">Wähle eine Sphäre</div>
+<div id="loading">Initialisiere 3D-Welt...</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+    // --- KONFIGURATION & VARIABLEN ---
+    let scene, camera, renderer, controls, raycaster;
+    let mouse = new THREE.Vector2();
+    let stations = [];
+    let audioCtx, audioElement, panner, analyser, dataArray;
+    let isPlaying = false, isMuted = false;
+    
+    // 3D Objekte
+    let visualizerCore, playButton, muteButton, volumeHandle, volumeRail;
+    let stationNodes = [];
+
+    // --- INITIALISIERUNG ---
+    async function init() {
+        // 1. Szene & Kamera
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050507);
+        scene.fog = new THREE.FogExp2(0x050507, 0.05);
+
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 2, 10);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        raycaster = new THREE.Raycaster();
+
+        // 2. Licht
+        const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+        scene.add(ambient);
+        const point = new THREE.PointLight(0x1db954, 1, 50);
+        point.position.set(0, 5, 5);
+        scene.add(point);
+
+        // 3. Hintergrund (Sterne)
+        const starGeo = new THREE.BufferGeometry();
+        const starCoords = [];
+        for(let i=0; i<5000; i++) {
+            starCoords.push((Math.random()-0.5)*100, (Math.random()-0.5)*100, (Math.random()-0.5)*100);
+        }
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
+        const starMat = new THREE.PointsMaterial({ color: 0x888888, size: 0.1 });
+        scene.add(new THREE.Points(starGeo, starMat));
+
+        // 4. UI-Elemente erstellen
+        createInterface();
+
+        // 5. Daten laden
+        try {
+            const res = await fetch('stations.json');
+            stations = await res.json();
+            createStationNebula();
+            document.getElementById('loading').style.display = 'none';
+        } catch(e) {
+            document.getElementById('status').innerText = "JSON Fehler!";
+        }
+
+        // Events
+        window.addEventListener('mousedown', onPointerDown);
+        window.addEventListener('resize', onWindowResize);
+        
+        animate();
+    }
+
+    function createInterface() {
+        // Zentraler Visualizer Kern
+        const coreGeo = new THREE.IcosahedronGeometry(1.5, 2);
+        const coreMat = new THREE.MeshPhongMaterial({ color: 0x1db954, wireframe: true });
+        visualizerCore = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(visualizerCore);
+
+        // Play Button (Grüner Oktaeder)
+        playButton = new THREE.Mesh(
+            new THREE.OctahedronGeometry(0.5),
+            new THREE.MeshPhongMaterial({ color: 0x00ff00, emissive: 0x004400 })
+        );
+        playButton.position.set(-2, -2, 3);
+        playButton.userData = { type: 'play' };
+        scene.add(playButton);
+
+        // Mute Button (Roter Oktaeder)
+        muteButton = new THREE.Mesh(
+            new THREE.OctahedronGeometry(0.5),
+            new THREE.MeshPhongMaterial({ color: 0xff0000, emissive: 0x440000 })
+        );
+        muteButton.position.set(2, -2, 3);
+        muteButton.userData = { type: 'mute' };
+        scene.add(muteButton);
+
+        // Volume Slider (Schiene und Griff)
+        const railGeo = new THREE.BoxGeometry(3, 0.1, 0.1);
+        volumeRail = new THREE.Mesh(railGeo, new THREE.MeshPhongMaterial({ color: 0x333333 }));
+        volumeRail.position.set(0, -3.5, 3);
+        scene.add(volumeRail);
+
+        volumeHandle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.2, 16, 16),
+            new THREE.MeshPhongMaterial({ color: 0x00aaff })
+        );
+        volumeHandle.position.set(0, -3.5, 3); // Start in der Mitte (50%)
+        volumeHandle.userData = { type: 'volume' };
+        scene.add(volumeHandle);
+    }
+
+    function createStationNebula() {
+        stations.forEach((s, i) => {
+            // Verteile Sender in einer Sphäre
+            const phi = Math.acos(-1 + (2 * i) / stations.length);
+            const theta = Math.sqrt(stations.length * Math.PI) * phi;
+            const radius = 8;
+
+            const node = new THREE.Mesh(
+                new THREE.SphereGeometry(0.4, 32, 32),
+                new THREE.MeshStandardMaterial({ 
+                    color: new THREE.Color().setHSL(Math.random(), 0.7, 0.5),
+                    emissive: 0x111111 
+                })
+            );
+            
+            node.position.set(
+                radius * Math.cos(theta) * Math.sin(phi),
+                radius * Math.sin(theta) * Math.sin(phi),
+                radius * Math.cos(phi)
+            );
+            
+            node.userData = { type: 'station', url: s.url, name: s.name };
+            scene.add(node);
+            stationNodes.push(node);
+        });
+    }
+
+    // --- AUDIO LOGIK ---
+    function initAudio() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioElement = new Audio();
+        audioElement.crossOrigin = "anonymous";
+        
+        const source = audioCtx.createMediaElementSource(audioElement);
+        panner = audioCtx.createPanner();
+        panner.panningModel = 'HRTF';
+        
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 64;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        source.connect(analyser);
+        analyser.connect(panner);
+        panner.connect(audioCtx.destination);
+    }
+
+    function onPointerDown(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        if (intersects.length > 0) {
+            const obj = intersects[0].object;
+            const data = obj.userData;
+
+            initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            if (data.type === 'play') {
+                if (!isPlaying) {
+                    audioElement.play();
+                    isPlaying = true;
+                    obj.scale.set(1.5, 1.5, 1.5);
+                } else {
+                    audioElement.pause();
+                    isPlaying = false;
+                    obj.scale.set(1, 1, 1);
+                }
+            } 
+            
+            else if (data.type === 'mute') {
+                isMuted = !isMuted;
+                audioElement.muted = isMuted;
+                obj.material.emissive.setHex(isMuted ? 0xffffff : 0x440000);
+            }
+
+            else if (data.type === 'station') {
+                document.getElementById('station-name').innerText = "Lade: " + data.name;
+                audioElement.src = data.url;
+                audioElement.play();
+                isPlaying = true;
+                playButton.scale.set(1.5, 1.5, 1.5);
+                
+                // Kamera sanft zum Sender bewegen (optional, hier statisch)
+                document.getElementById('status').innerText = "Live: " + data.name;
+            }
+
+            // Volume Handle Logik (vereinfacht: Klick verschiebt Griff auf Schiene)
+            else if (data.type === 'volume' || obj === volumeRail) {
+                const intersectPoint = intersects[0].point;
+                const newX = Math.max(-1.5, Math.min(1.5, intersectPoint.x));
+                volumeHandle.position.x = newX;
+                const volume = (newX + 1.5) / 3;
+                audioElement.volume = volume;
+            }
+        }
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+
+        // 3D Animationen
+        visualizerCore.rotation.y += 0.01;
+        stationNodes.forEach(node => {
+            node.rotation.y += 0.02;
+        });
+
+        // Audio-Reaktion
+        if (analyser && isPlaying) {
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for(let i=0; i<dataArray.length; i++) sum += dataArray[i];
+            let avg = sum / dataArray.length;
+            
+            let s = 1 + (avg / 100);
+            visualizerCore.scale.set(s, s, s);
+            visualizerCore.material.color.setHSL(avg/255, 0.8, 0.5);
+        }
+
+        // Panner an Kamera binden
+        if (audioCtx) {
+            panner.positionX.setValueAtTime(camera.position.x, audioCtx.currentTime);
+            panner.positionY.setValueAtTime(camera.position.y, audioCtx.currentTime);
+            panner.positionZ.setValueAtTime(camera.position.z, audioCtx.currentTime);
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    init();
+</script>
+</body>
+</html>
