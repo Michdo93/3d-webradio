@@ -5,24 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klassisches 3D-Webradio</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #222; font-family: sans-serif; }
+        body { margin: 0; overflow: hidden; background: #1a1a1a; font-family: sans-serif; user-select: none; }
         #hud {
             position: absolute;
             top: 20px;
             left: 20px;
             color: #aaa;
             pointer-events: none;
-            font-size: 0.9rem;
+            font-size: 1rem;
             z-index: 10;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.5;
         }
         #hud span { color: #1db954; font-weight: bold; }
+        #instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #888;
+            font-size: 0.85rem;
+            text-align: center;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
 <div id="hud">
     3D Radio-Status: <span id="status">Bereit</span><br>
-    Aktueller Sender: <span id="station-display">- Kein Sender -</span>
+    Aktueller Sender: <span id="station-display">- Kein Sender (Bitte wählen) -</span><br>
+    Lautstärke: <span id="volume-display">50%</span>
+</div>
+
+<div id="instructions">
+    Links-Klick + Ziehen auf Knöpfe/Regler zur Bedienung | Rechts-Klick + Ziehen zum Drehen der Kamera
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -37,121 +56,144 @@
     // 3D Radio-Komponenten
     let playBtnMesh, muteBtnMesh, volumeSliderMesh;
     let stationMeshes = [];
+    
+    // Dragging-Variablen für den Regler
+    let isDraggingVolume = false;
+    const railX = 0.7;
+    const railWidth = 1.2;
+    const minX = railX - (railWidth / 2);
+    const maxX = railX + (railWidth / 2);
 
     async function init() {
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x1a1a1a);
+        scene.background = new THREE.Color(0x141416);
 
         camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 2, 7);
+        camera.position.set(0, 1.5, 5); // Kamera etwas näher ran für leichtere Bedienung
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
+        // OrbitControls anpassen: Linksklick für Radio-Bedienung, Rechtsklick/Zwei-Finger für Kamera
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.minDistance = 3;
-        controls.maxDistance = 15;
+        controls.minDistance = 2.5;
+        controls.maxDistance = 10;
+        controls.mouseButtons = {
+            LEFT: THREE.MOUSE.NONE, // Linksklick für Orbit deaktivieren, damit wir ungestört klicken können
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.ROTATE
+        };
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2();
 
-        // Beleuchtung für gemütliche Werkstatt-Atmosphäre
-        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        // Lichtquellen
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambient);
-        const spotLight = new THREE.SpotLight(0xffffff, 0.8);
-        spotLight.position.set(5, 10, 5);
-        scene.add(spotLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
 
         // Tischplatte
-        const table = new THREE.Mesh(new THREE.BoxGeometry(10, 0.1, 5), new THREE.MeshPhongMaterial({ color: 0x333333 }));
+        const table = new THREE.Mesh(new THREE.BoxGeometry(12, 0.1, 6), new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 }));
         table.position.y = -1.55;
         scene.add(table);
 
-        // Das Haupt-Radio bauen
         buildRadio();
 
-        // Sender laden
+        // Sender aus stations.json laden
         try {
             const res = await fetch('stations.json');
             stations = await res.json();
             buildStationMenu();
         } catch(e) {
-            document.getElementById('status').innerText = "Fehler (stations.json)";
+            document.getElementById('status').innerText = "Fehler: stations.json fehlt!";
         }
 
-        window.addEventListener('mousedown', onRadioClick);
+        // Event-Listener für präzise Maus-Interaktion
+        window.addEventListener('mousedown', onMouseDown);
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
         window.addEventListener('resize', onWindowResize);
+        
         animate();
     }
 
     function buildRadio() {
-        // 1. Das Holzgehäuse
-        const bodyGeo = new THREE.BoxGeometry(4, 2.5, 2);
-        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x8B5A2B, roughness: 0.7 }); // Braun/Holz
-        const radioBody = new THREE.Mesh(bodyGeo, bodyMat);
+        // Holzgehäuse
+        const radioBody = new THREE.Mesh(
+            new THREE.BoxGeometry(4, 2.5, 2), 
+            new THREE.MeshStandardMaterial({ color: 0x6e4720, roughness: 0.6 })
+        );
         radioBody.position.y = -0.3;
         scene.add(radioBody);
 
-        // 2. Die Frontblende (Bedienfeld)
-        const faceGeo = new THREE.BoxGeometry(3.7, 2.2, 0.1);
-        const faceMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, roughness: 0.4 }); // Silber/Grau
-        const radioFace = new THREE.Mesh(faceGeo, faceMat);
+        // Frontblende
+        const radioFace = new THREE.Mesh(
+            new THREE.BoxGeometry(3.7, 2.2, 0.1), 
+            new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.3 })
+        );
         radioFace.position.set(0, -0.3, 1);
         scene.add(radioFace);
 
-        // 3. Lautsprecher-Grill (Schwarzer Kreis links)
-        const grillGeo = new THREE.CylinderGeometry(0.8, 0.8, 0.05, 32);
-        const grillMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.9 });
-        const grill = new THREE.Mesh(grillGeo, grillMat);
+        // Lautsprecher-Grill
+        const grill = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.8, 0.8, 0.05, 32), 
+            new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.9 })
+        );
         grill.rotation.x = Math.PI / 2;
         grill.position.set(-0.9, -0.3, 1.05);
         scene.add(grill);
 
-        // 4. Play/Pause Knopf (Groß, rund, rechts unten)
-        const btnGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.15, 32);
-        const playMat = new THREE.MeshStandardMaterial({ color: 0x1db954, roughness: 0.5 });
-        playBtnMesh = new THREE.Mesh(btnGeo, playMat);
+        // Play/Pause Button (Groß, grün)
+        playBtnMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.2, 0.2, 0.15, 32), 
+            new THREE.MeshStandardMaterial({ color: 0x1db954, roughness: 0.4 })
+        );
         playBtnMesh.rotation.x = Math.PI / 2;
         playBtnMesh.position.set(0.4, -0.9, 1.05);
         playBtnMesh.userData = { type: 'play' };
         scene.add(playBtnMesh);
 
-        // 5. Mute Knopf (Klein, rund, rechts daneben)
-        const muteMat = new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.5 });
-        muteBtnMesh = new THREE.Mesh(btnGeo, muteMat);
-        muteBtnMesh.scale.set(0.7, 1, 0.7);
+        // Mute Button (Klein, grau/rot)
+        muteBtnMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.14, 0.14, 0.15, 32), 
+            new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4 })
+        );
         muteBtnMesh.rotation.x = Math.PI / 2;
-        muteBtnMesh.position.set(1.0, -0.9, 1.05);
+        muteBtnMesh.position.set(1.1, -0.9, 1.05);
         muteBtnMesh.userData = { type: 'mute' };
         scene.add(muteBtnMesh);
 
-        // 6. Lautstärke-Schieberegler (0-100 Schiene rechts oben)
-        const railGeo = new THREE.BoxGeometry(1.2, 0.05, 0.05);
-        const railMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
-        const rail = new THREE.Mesh(railGeo, railMat);
-        rail.position.set(0.7, -0.4, 1.05);
+        // Lautstärkeschiene
+        const rail = new THREE.Mesh(
+            new THREE.BoxGeometry(railWidth, 0.04, 0.04), 
+            new THREE.MeshStandardMaterial({ color: 0x111111 })
+        );
+        rail.position.set(railX, -0.4, 1.05);
         scene.add(rail);
 
-        const sliderGeo = new THREE.BoxGeometry(0.1, 0.2, 0.1);
-        const sliderMat = new THREE.MeshStandardMaterial({ color: 0x0088cc });
-        volumeSliderMesh = new THREE.Mesh(sliderGeo, sliderMat);
-        volumeSliderMesh.position.set(0.7, -0.4, 1.08); // Start in der Mitte (50%)
-        volumeSliderMesh.userData = { type: 'volume', railX: 0.7, railWidth: 1.2 };
+        // Der bewegliche Regler-Knopf
+        volumeSliderMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(0.08, 0.2, 0.1), 
+            new THREE.MeshStandardMaterial({ color: 0x007acc, roughness: 0.2 })
+        );
+        volumeSliderMesh.position.set(railX, -0.4, 1.08); // Start bei 50%
+        volumeSliderMesh.userData = { type: 'volume' };
         scene.add(volumeSliderMesh);
     }
 
-    // Senderliste als kleine 3D-Klick-Schilder auf der rechten oberen Seite des Radios anbringen
     function buildStationMenu() {
-        stations.slice(0, 4).forEach((station, i) => { // Begrenzt auf max 4 Sender fürs UI-Layout
-            const labelGeo = new THREE.BoxGeometry(1.2, 0.2, 0.02);
-            const labelMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
-            const labelMesh = new THREE.Mesh(labelGeo, labelMat);
-            
-            // Untereinander stapeln auf der Frontblende
-            labelMesh.position.set(0.7, 0.5 - (i * 0.25), 1.05);
+        // Generiert bis zu 4 Schilder direkt auf der Front des Radios
+        stations.slice(0, 4).forEach((station, i) => {
+            const labelMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(1.3, 0.2, 0.03), 
+                new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.5 })
+            );
+            labelMesh.position.set(0.7, 0.5 - (i * 0.26), 1.05);
             labelMesh.userData = { type: 'station', url: station.url, name: station.name, index: i };
             
             scene.add(labelMesh);
@@ -159,24 +201,28 @@
         });
     }
 
+    // --- AUDIO CORE ---
     function initAudio() {
         if (audioCtx) return;
+        
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         audioElement = new Audio();
-        audioElement.crossOrigin = "anonymous";
-        
+        audioElement.crossOrigin = "anonymous"; 
+        audioElement.volume = 0.5;
+
         const source = audioCtx.createMediaElementSource(audioElement);
         panner = audioCtx.createPanner();
-        panner.panningModel = 'HRTF'; // Sorgt dafür, dass es sich im Raum echt anhört
+        panner.panningModel = 'HRTF';
 
         source.connect(panner);
         panner.connect(audioCtx.destination);
     }
 
-    function onRadioClick(event) {
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    // --- INTERAKTIONSLOGIK ---
+    function onMouseDown(event) {
+        if (event.button !== 0) return; // Nur Linksklick erlauben
 
+        updateMouseCoords(event);
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.children);
 
@@ -189,76 +235,121 @@
             initAudio();
             if (audioCtx.state === 'suspended') audioCtx.resume();
 
-            // PLAY / PAUSE
+            // 1. KNOPF: PLAY/PAUSE
             if (data.type === 'play') {
-                if (!audioElement.src && stations.length > 0) selectStation(0); // Falls noch kein Sender aktiv war
-                
-                if (!isPlaying) {
-                    audioElement.play();
-                    isPlaying = true;
-                    playBtnMesh.position.z = 1.01; // Knopf hineindrücken
-                    document.getElementById('status').innerText = "Spielt";
-                } else {
-                    audioElement.pause();
-                    isPlaying = false;
-                    playBtnMesh.position.z = 1.05; // Knopf kommt wieder raus
-                    document.getElementById('status').innerText = "Pausiert";
-                }
+                if (!audioElement.src && stations.length > 0) selectStation(0);
+                togglePlay();
             }
             
-            // MUTE
+            // 2. KNOPF: MUTE
             else if (data.type === 'mute') {
-                isMuted = !isMuted;
-                audioElement.muted = isMuted;
-                muteBtnMesh.material.emissive.setHex(isMuted ? 0xcc0000 : 0x000000);
-                muteBtnMesh.position.z = isMuted ? 1.01 : 1.05;
+                toggleMute();
             }
 
-            // SENDERWAHL
+            // 3. SENDERLISTE
             else if (data.type === 'station') {
                 selectStation(data.index);
             }
 
-            // LAUTSTÄRKE (Klick auf den Regler verschiebt ihn)
+            // 4. REGELUNG STARTEN (VOLUME)
             else if (data.type === 'volume') {
-                const intersectPoint = intersects[0].point;
-                // Begrenze das Verschieben auf die Schienenbreite
-                const minX = data.railX - (data.railWidth / 2);
-                const maxX = data.railX + (data.railWidth / 2);
-                const newX = Math.max(minX, Math.min(maxX, intersectPoint.x));
-                
-                volumeSliderMesh.position.x = newX;
-                
-                // Berechne Prozentwert (0.0 bis 1.0)
-                const volumePercent = (newX - minX) / data.railWidth;
-                audioElement.volume = volumePercent;
-                document.getElementById('status').innerText = `Lautstärke: ${Math.round(volumePercent * 100)}%`;
+                isDraggingVolume = true;
+                // Deaktiviere Kamera-Damping während des Ziehens
+                controls.enabled = false;
             }
         }
     }
 
+    function onMouseMove(event) {
+        if (!isDraggingVolume) return;
+
+        updateMouseCoords(event);
+        raycaster.setFromCamera(mouse, camera);
+        
+        // Erzeuge eine virtuelle mathematische Ebene auf der Radiofront, um die Mausposition im Raum zu bestimmen
+        const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -1.08);
+        const intersectionPoint = new THREE.Vector3();
+        raycaster.ray.intersectPlane(plane, intersectionPoint);
+
+        if (intersectionPoint) {
+            // Begrenze die Bewegung auf die Schiene
+            const newX = Math.max(minX, Math.min(maxX, intersectionPoint.x));
+            volumeSliderMesh.position.x = newX;
+
+            // Prozentwert berechnen und an Audio übergeben
+            const volumePercent = (newX - minX) / railWidth;
+            if (audioElement) {
+                audioElement.volume = volumePercent;
+            }
+            document.getElementById('volume-display').innerText = `${Math.round(volumePercent * 100)}%`;
+        }
+    }
+
+    function onMouseUp() {
+        if (isDraggingVolume) {
+            isDraggingVolume = false;
+            controls.enabled = true; // Kamera wieder freigeben
+        }
+    }
+
+    function updateMouseCoords(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    // --- HILFSFUNKTIONEN FÜR AUDIO-STEUERUNG ---
     function selectStation(index) {
         const s = stations[index];
         document.getElementById('station-display').innerText = s.name;
-        document.getElementById('status').innerText = "Verbinde...";
+        document.getElementById('status').innerText = "Verbinde Stream...";
         
         audioElement.src = s.url;
-        audioElement.play();
-        isPlaying = true;
-        playBtnMesh.position.z = 1.01;
-
-        // Visuelles Feedback: Ausgewähltes Senderschild einfärben
-        stationMeshes.forEach((mesh, i) => {
-            mesh.material.color.setHex(i === index ? 0x1db954 : 0x333333);
+        
+        audioElement.play().then(() => {
+            isPlaying = true;
+            playBtnMesh.position.z = 1.02; // Visuell reingedrückt
+            document.getElementById('status').innerText = "Spielt live";
+        }).catch(err => {
+            console.error(err);
+            document.getElementById('status').innerText = "CORS / Stream-Fehler!";
+            isPlaying = false;
+            playBtnMesh.position.z = 1.05;
         });
+
+        // Schilder farblich markieren
+        stationMeshes.forEach((mesh, i) => {
+            mesh.material.color.setHex(i === index ? 0x1db954 : 0x2a2a2a);
+        });
+    }
+
+    function togglePlay() {
+        if (!isPlaying) {
+            audioElement.play().then(() => {
+                isPlaying = true;
+                playBtnMesh.position.z = 1.02;
+                document.getElementById('status').innerText = "Spielt live";
+            });
+        } else {
+            audioElement.pause();
+            isPlaying = false;
+            playBtnMesh.position.z = 1.05;
+            document.getElementById('status').innerText = "Pausiert";
+        }
+    }
+
+    function toggleMute() {
+        isMuted = !isMuted;
+        audioElement.muted = isMuted;
+        muteBtnMesh.material.color.setHex(isMuted ? 0xd11a2a : 0x555555);
+        muteBtnMesh.position.z = isMuted ? 1.02 : 1.05;
     }
 
     function animate() {
         requestAnimationFrame(animate);
         controls.update();
 
-        // Raumklang an Kameraposition heften
-        if (audioCtx) {
+        // 3D-Raumklang-Berechnung (Kamera-Abstand simuliert Ohren)
+        if (audioCtx && panner) {
             panner.positionX.setValueAtTime(camera.position.x, audioCtx.currentTime);
             panner.positionY.setValueAtTime(camera.position.y, audioCtx.currentTime);
             panner.positionZ.setValueAtTime(camera.position.z, audioCtx.currentTime);
