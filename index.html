@@ -18,7 +18,6 @@
             color: #888; font-size: 0.82rem; text-align: center; pointer-events: none; z-index: 10;
         }
 
-        /* Senderliste-Modal (per Klick aufs 3D-Display) */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
             display: flex; justify-content: center; align-items: center;
@@ -54,7 +53,7 @@
 </div>
 
 <div id="instructions">
-    Linksklick auf Knöpfe / Display / Lautstärkeknopf zur Bedienung &nbsp;|&nbsp; Rechtsklick + Ziehen: Kamera drehen &nbsp;|&nbsp; Mausrad: Zoom
+    Klick auf Regler-Schiene = direkt springen &nbsp;|&nbsp; Klick auf Knopf + Ziehen = fein einstellen &nbsp;|&nbsp; Rechtsklick + Ziehen: Kamera drehen
 </div>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
@@ -75,11 +74,11 @@
     // ---------- Grunddaten ----------
     let scene, camera, renderer, controls, raycaster, pointer;
     let stations = [];
-    let audioCtx, audioElement, panner;
+    let audioElement;
     let isPlaying = false, isMuted = false, volume = 0.5;
     let currentStationIndex = -1;
+    let loadId = 0; // verhindert Race-Conditions bei schnellem Senderwechsel
 
-    // Fallback-Sender, falls stations.json nicht geladen werden kann (z.B. lokal ohne Server)
     const FALLBACK_STATIONS = [
         { name: "SomaFM Groove Salad (Demo)", url: "https://ice1.somafm.com/groovesalad-128-mp3" },
         { name: "SomaFM Drone Zone (Demo)", url: "https://ice1.somafm.com/dronezone-128-mp3" },
@@ -87,16 +86,19 @@
     ];
 
     // 3D-Objekte
-    let playBtnMesh, muteBtnMesh, nextBtnMesh, prevBtnMesh, volumeKnobMesh, volumeIndicatorMesh, displayMesh;
+    let playBtnMesh, muteBtnMesh, nextBtnMesh, prevBtnMesh, displayMesh;
+    let volumeRailMesh, volumeKnobMesh;
+    let stationRailMesh, stationKnobMesh;
+    let speakerParts = []; // Grill + Ringe, für die Vibrations-Animation
     let interactiveObjects = [];
     let hoveredObject = null;
 
-    // Drag-Status für den Lautstärkeknopf
+    // Slider-Geometrie (Weltkoordinaten)
+    const VOL_RAIL_X = 1.5, VOL_RAIL_Y_MIN = -0.9, VOL_RAIL_Y_MAX = 0.75, VOL_RAIL_Z = 1.11;
+    const STA_RAIL_Y = -1.2, STA_RAIL_X_MIN = -1.0, STA_RAIL_X_MAX = 1.0, STA_RAIL_Z = 1.11;
+
     let isDraggingVolume = false;
-    let dragStartY = 0;
-    let dragStartVolume = 0.5;
-    const KNOB_MIN_DEG = -135;
-    const KNOB_MAX_DEG = 135;
+    let isDraggingStation = false;
 
     // Display-Textur
     let displayCanvas, displayCtx, displayTexture;
@@ -117,7 +119,6 @@
         controls.enableDamping = true;
         controls.minDistance = 2.5;
         controls.maxDistance = 10;
-        // Linksklick wird NICHT von OrbitControls verarbeitet -> steht komplett für die Bedienung zur Verfügung
         controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
         raycaster = new THREE.Raycaster();
@@ -162,99 +163,120 @@
         radioFace.position.set(0, -0.2, 1);
         scene.add(radioFace);
 
-        // Lautsprecher-Grill
+        // ---- Lautsprecher (unten links, klar getrennt von den Buttons) ----
         const grill = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.75, 0.75, 0.05, 32),
+            new THREE.CylinderGeometry(0.5, 0.5, 0.05, 32),
             new THREE.MeshStandardMaterial({ color: 0x0d0d0d, roughness: 0.9 })
         );
         grill.rotation.x = Math.PI / 2;
-        grill.position.set(-1.1, -0.2, 1.06);
+        grill.position.set(-1.3, -0.15, 1.06);
         scene.add(grill);
-        for (let r = 0.15; r < 0.7; r += 0.14) {
+        speakerParts.push({ mesh: grill, baseZ: 1.06 });
+
+        for (let r = 0.1; r < 0.48; r += 0.12) {
             const ring = new THREE.Mesh(
                 new THREE.TorusGeometry(r, 0.01, 8, 32),
                 new THREE.MeshStandardMaterial({ color: 0x333333 })
             );
-            ring.position.set(-1.1, -0.2, 1.09);
+            ring.position.set(-1.3, -0.15, 1.085);
             scene.add(ring);
+            speakerParts.push({ mesh: ring, baseZ: 1.085 });
         }
 
-        // ---- Display (Canvas-Textur) ----
+        // ---- Display ----
         displayCanvas = document.createElement('canvas');
         displayCanvas.width = 512; displayCanvas.height = 256;
         displayCtx = displayCanvas.getContext('2d');
         displayTexture = new THREE.CanvasTexture(displayCanvas);
         displayMesh = new THREE.Mesh(
-            new THREE.PlaneGeometry(1.5, 0.75),
+            new THREE.PlaneGeometry(1.5, 0.62),
             new THREE.MeshBasicMaterial({ map: displayTexture })
         );
-        displayMesh.position.set(0.05, 0.45, 1.06);
+        displayMesh.position.set(-0.05, 0.45, 1.06);
         displayMesh.userData = { type: 'openStationList' };
         scene.add(displayMesh);
         interactiveObjects.push(displayMesh);
-        redrawDisplay();
 
-        // ---- Play/Pause ----
-        playBtnMesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.22, 0.22, 0.15, 32),
-            new THREE.MeshStandardMaterial({ color: 0x1db954, roughness: 0.4 })
-        );
-        playBtnMesh.rotation.x = Math.PI / 2;
-        playBtnMesh.position.set(-0.75, -0.85, 1.08);
-        playBtnMesh.userData = { type: 'play', baseZ: 1.08, pressedZ: 1.02 };
-        scene.add(playBtnMesh);
-        interactiveObjects.push(playBtnMesh);
-
-        // ---- Mute ----
-        muteBtnMesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.16, 0.16, 0.15, 32),
-            new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4 })
-        );
-        muteBtnMesh.rotation.x = Math.PI / 2;
-        muteBtnMesh.position.set(-0.15, -0.85, 1.08);
-        muteBtnMesh.userData = { type: 'mute', baseZ: 1.08, pressedZ: 1.02 };
-        scene.add(muteBtnMesh);
-        interactiveObjects.push(muteBtnMesh);
-
-        // ---- Vorheriger / Nächster Sender ----
+        // ---- Steuerknöpfe (eigene Reihe, unten mittig/rechts – kein Überlapp mit dem Lautsprecher) ----
         prevBtnMesh = new THREE.Mesh(
-            new THREE.BoxGeometry(0.28, 0.28, 0.15),
+            new THREE.BoxGeometry(0.26, 0.26, 0.15),
             new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.4 })
         );
-        prevBtnMesh.position.set(-1.35, -0.85, 1.08);
+        prevBtnMesh.position.set(-0.9, -0.95, 1.08);
         prevBtnMesh.userData = { type: 'prev', baseZ: 1.08, pressedZ: 1.02 };
         scene.add(prevBtnMesh);
         interactiveObjects.push(prevBtnMesh);
 
+        playBtnMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.2, 0.2, 0.15, 32),
+            new THREE.MeshStandardMaterial({ color: 0x1db954, roughness: 0.4 })
+        );
+        playBtnMesh.rotation.x = Math.PI / 2;
+        playBtnMesh.position.set(-0.3, -0.95, 1.08);
+        playBtnMesh.userData = { type: 'play', baseZ: 1.08, pressedZ: 1.02 };
+        scene.add(playBtnMesh);
+        interactiveObjects.push(playBtnMesh);
+
+        muteBtnMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.15, 0.15, 0.15, 32),
+            new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4 })
+        );
+        muteBtnMesh.rotation.x = Math.PI / 2;
+        muteBtnMesh.position.set(0.3, -0.95, 1.08);
+        muteBtnMesh.userData = { type: 'mute', baseZ: 1.08, pressedZ: 1.02 };
+        scene.add(muteBtnMesh);
+        interactiveObjects.push(muteBtnMesh);
+
         nextBtnMesh = new THREE.Mesh(
-            new THREE.BoxGeometry(0.28, 0.28, 0.15),
+            new THREE.BoxGeometry(0.26, 0.26, 0.15),
             new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.4 })
         );
-        nextBtnMesh.position.set(0.45, -0.85, 1.08);
+        nextBtnMesh.position.set(0.9, -0.95, 1.08);
         nextBtnMesh.userData = { type: 'next', baseZ: 1.08, pressedZ: 1.02 };
         scene.add(nextBtnMesh);
         interactiveObjects.push(nextBtnMesh);
 
-        // ---- Lautstärkeknopf (drehbar) ----
+        // ---- Vertikaler Lautstärke-Schieberegler (rechte Seite) ----
+        volumeRailMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(0.05, VOL_RAIL_Y_MAX - VOL_RAIL_Y_MIN, 0.05),
+            new THREE.MeshStandardMaterial({ color: 0x111111 })
+        );
+        volumeRailMesh.position.set(VOL_RAIL_X, (VOL_RAIL_Y_MIN + VOL_RAIL_Y_MAX) / 2, 1.08);
+        volumeRailMesh.userData = { type: 'volumeRail' };
+        scene.add(volumeRailMesh);
+        interactiveObjects.push(volumeRailMesh);
+
         volumeKnobMesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.26, 0.26, 0.18, 32),
+            new THREE.BoxGeometry(0.18, 0.14, 0.12),
             new THREE.MeshStandardMaterial({ color: 0x007acc, roughness: 0.3 })
         );
-        volumeKnobMesh.rotation.x = Math.PI / 2;
-        volumeKnobMesh.position.set(1.35, -0.2, 1.09);
+        volumeKnobMesh.position.set(VOL_RAIL_X, 0, VOL_RAIL_Z);
         volumeKnobMesh.userData = { type: 'volumeKnob' };
         scene.add(volumeKnobMesh);
         interactiveObjects.push(volumeKnobMesh);
 
-        // Markierungsstrich auf dem Lautstärkeknopf (zeigt Drehposition)
-        volumeIndicatorMesh = new THREE.Mesh(
-            new THREE.BoxGeometry(0.03, 0.2, 0.03),
-            new THREE.MeshStandardMaterial({ color: 0xffffff })
+        // ---- Horizontaler Sender-Schieberegler (unten) ----
+        stationRailMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(STA_RAIL_X_MAX - STA_RAIL_X_MIN, 0.05, 0.05),
+            new THREE.MeshStandardMaterial({ color: 0x111111 })
         );
-        volumeIndicatorMesh.position.set(0, 0.13, 0.1);
-        volumeKnobMesh.add(volumeIndicatorMesh);
+        stationRailMesh.position.set(0, STA_RAIL_Y, 1.08);
+        stationRailMesh.userData = { type: 'stationRail' };
+        scene.add(stationRailMesh);
+        interactiveObjects.push(stationRailMesh);
+
+        stationKnobMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(0.14, 0.18, 0.12),
+            new THREE.MeshStandardMaterial({ color: 0xe0a020, roughness: 0.3 })
+        );
+        stationKnobMesh.position.set(0, STA_RAIL_Y, STA_RAIL_Z);
+        stationKnobMesh.userData = { type: 'stationKnob' };
+        scene.add(stationKnobMesh);
+        interactiveObjects.push(stationKnobMesh);
 
         setVolume(volume);
+        updateStationSliderPosition();
+        redrawDisplay();
     }
 
     function redrawDisplay() {
@@ -277,14 +299,13 @@
         const statusText = document.getElementById('status') ? document.getElementById('status').innerText : 'Bereit';
         ctx.fillText(statusText, 256, 150);
 
-        // Lautstärke-Balken
         ctx.strokeStyle = '#1db954';
         ctx.strokeRect(106, 180, 300, 22);
         ctx.fillStyle = '#1db954';
         ctx.fillRect(108, 182, 296 * volume, 18);
         ctx.font = '14px monospace';
         ctx.fillStyle = '#8fe3af';
-        ctx.fillText('Klicken für Senderliste', 256, 235);
+        ctx.fillText('Klick aufs Display = Senderliste', 256, 235);
 
         displayTexture.needsUpdate = true;
     }
@@ -306,10 +327,19 @@
         ctx.fillText(line, x, curY);
     }
 
-    function updateVolumeKnobRotation() {
+    // ---------- Slider-Positionen ----------
+    function updateVolumeKnobPosition() {
         if (!volumeKnobMesh) return;
-        const deg = KNOB_MIN_DEG + volume * (KNOB_MAX_DEG - KNOB_MIN_DEG);
-        volumeKnobMesh.rotation.z = THREE.MathUtils.degToRad(deg);
+        const y = VOL_RAIL_Y_MIN + volume * (VOL_RAIL_Y_MAX - VOL_RAIL_Y_MIN);
+        volumeKnobMesh.position.y = y;
+    }
+
+    function updateStationSliderPosition() {
+        if (!stationKnobMesh) return;
+        const n = stations.length;
+        const frac = n > 1 ? currentStationIndex / (n - 1) : 0.5;
+        const x = STA_RAIL_X_MIN + frac * (STA_RAIL_X_MAX - STA_RAIL_X_MIN);
+        stationKnobMesh.position.x = x;
     }
 
     // ---------- Sender laden ----------
@@ -326,54 +356,81 @@
         }
         renderStationList(stations);
         if (stations.length > 0) selectStation(0, false);
+        updateStationSliderPosition();
         redrawDisplay();
+    }
+
+    // ---------- Playlist-Auflösung (.m3u / .pls) ----------
+    async function resolveStreamUrl(url) {
+        if (/\.(m3u8?|pls)(\?.*)?$/i.test(url)) {
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Playlist nicht erreichbar');
+                const text = await res.text();
+                const lines = text.split(/\r?\n/);
+                for (const raw of lines) {
+                    const line = raw.trim();
+                    if (!line || line.startsWith('#')) continue;
+                    if (/^https?:\/\//i.test(line)) return line;
+                    const plsMatch = line.match(/^File\d*=(.+)$/i);
+                    if (plsMatch) return plsMatch[1].trim();
+                }
+            } catch (e) {
+                console.warn('Playlist konnte nicht aufgelöst werden, versuche Original-URL:', e);
+            }
+        }
+        return url;
     }
 
     // ---------- Audio ----------
-    function initAudio() {
-        if (audioCtx) return;
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function ensureAudioElement() {
+        if (audioElement) return;
         audioElement = new Audio();
-        audioElement.crossOrigin = 'anonymous';
+        // Bewusst KEIN crossOrigin + Web-Audio-API-Graph: die meisten Radiostreams senden
+        // keine CORS-Header, dann würde der Browser die Wiedergabe komplett blockieren.
         audioElement.volume = volume;
-
-        const source = audioCtx.createMediaElementSource(audioElement);
-        panner = audioCtx.createPanner();
-        panner.panningModel = 'HRTF';
-        source.connect(panner);
-        panner.connect(audioCtx.destination);
+        audioElement.muted = isMuted;
     }
 
-    function selectStation(index, autoplay = true) {
+    async function selectStation(index, autoplay = true) {
         if (index < 0 || index >= stations.length) return;
         currentStationIndex = index;
         const s = stations[index];
+        updateStationSliderPosition();
         setStatus(autoplay ? 'Verbinde Stream...' : 'Bereit');
         redrawDisplay();
-
-        if (autoplay) {
-            initAudio();
-            audioElement.src = s.url;
-            audioElement.play().then(() => {
-                isPlaying = true;
-                playBtnMesh.position.z = playBtnMesh.userData.pressedZ;
-                setStatus('Spielt live');
-                redrawDisplay();
-            }).catch(err => {
-                console.error(err);
-                isPlaying = false;
-                playBtnMesh.position.z = playBtnMesh.userData.baseZ;
-                setStatus('Stream-Fehler / CORS');
-                redrawDisplay();
-            });
-        }
-
         highlightActiveStationInList(index);
+
+        if (!autoplay) return;
+
+        ensureAudioElement();
+        const myLoadId = ++loadId;
+
+        const streamUrl = await resolveStreamUrl(s.url);
+        if (myLoadId !== loadId) return; // zwischenzeitlich wurde ein anderer Sender gewählt
+
+        audioElement.src = streamUrl;
+        audioElement.play().then(() => {
+            if (myLoadId !== loadId) return;
+            isPlaying = true;
+            playBtnMesh.position.z = playBtnMesh.userData.pressedZ;
+            setStatus('Spielt live');
+            redrawDisplay();
+        }).catch(err => {
+            if (myLoadId !== loadId) return;
+            console.error(err);
+            isPlaying = false;
+            playBtnMesh.position.z = playBtnMesh.userData.baseZ;
+            const msg = (location.protocol === 'https:' && streamUrl.startsWith('http:'))
+                ? 'Blockiert: Stream ist nur http, Seite ist https'
+                : 'Stream-Fehler / CORS';
+            setStatus(msg);
+            redrawDisplay();
+        });
     }
 
     function togglePlay() {
-        initAudio();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+        ensureAudioElement();
 
         if (currentStationIndex < 0 && stations.length > 0) {
             selectStation(0, true);
@@ -418,13 +475,19 @@
     function setVolume(v) {
         volume = Math.max(0, Math.min(1, v));
         if (audioElement) audioElement.volume = volume;
-        document.getElementById('volume-display').innerText = `${Math.round(volume * 100)}%`;
-        updateVolumeKnobRotation();
+        const vd = document.getElementById('volume-display');
+        if (vd) vd.innerText = `${Math.round(volume * 100)}%`;
+        updateVolumeKnobPosition();
         redrawDisplay();
     }
 
     function setStatus(msg) {
-        document.getElementById('status').innerText = msg;
+        const el = document.getElementById('status');
+        if (el) el.innerText = msg;
+        const sd = document.getElementById('station-display');
+        if (sd && currentStationIndex >= 0 && stations[currentStationIndex]) {
+            sd.innerText = stations[currentStationIndex].name;
+        }
     }
 
     // ---------- Pointer-Interaktion (Maus + Touch) ----------
@@ -435,48 +498,91 @@
 
     function pressAnim(mesh) {
         if (!mesh.userData.baseZ) return;
-        const original = mesh.position.z;
         mesh.position.z = mesh.userData.pressedZ;
         setTimeout(() => {
-            // Play/Mute behalten ihren Zustand selbst; Prev/Next federn zurück
             if (mesh.userData.type === 'prev' || mesh.userData.type === 'next') {
                 mesh.position.z = mesh.userData.baseZ;
             }
         }, 120);
     }
 
+    // Wandelt einen Klick/Zug auf der Lautstärke-Schiene direkt in einen Wert um (Sprung-Feature)
+    function volumeFromWorldY(worldY) {
+        const clamped = Math.max(VOL_RAIL_Y_MIN, Math.min(VOL_RAIL_Y_MAX, worldY));
+        return (clamped - VOL_RAIL_Y_MIN) / (VOL_RAIL_Y_MAX - VOL_RAIL_Y_MIN);
+    }
+
+    function stationIndexFromWorldX(worldX) {
+        const n = stations.length;
+        if (n <= 1) return 0;
+        const clamped = Math.max(STA_RAIL_X_MIN, Math.min(STA_RAIL_X_MAX, worldX));
+        const frac = (clamped - STA_RAIL_X_MIN) / (STA_RAIL_X_MAX - STA_RAIL_X_MIN);
+        return Math.round(frac * (n - 1));
+    }
+
     function onPointerDown(event) {
-        if (event.button !== 0) return; // nur Linksklick / primärer Touch
+        if (event.button !== 0) return;
         updatePointer(event);
         raycaster.setFromCamera(pointer, camera);
         const intersects = raycaster.intersectObjects(interactiveObjects);
         if (intersects.length === 0) return;
 
-        const obj = intersects[0].object;
-        const data = obj.userData;
+        const hit = intersects[0];
+        const data = hit.object.userData;
 
-        initAudio();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+        ensureAudioElement();
 
         switch (data.type) {
-            case 'play': togglePlay(); pressAnim(obj); break;
+            case 'play': togglePlay(); pressAnim(hit.object); break;
             case 'mute': toggleMute(); break;
-            case 'next': nextStation(); pressAnim(obj); break;
-            case 'prev': prevStation(); pressAnim(obj); break;
+            case 'next': nextStation(); pressAnim(hit.object); break;
+            case 'prev': prevStation(); pressAnim(hit.object); break;
             case 'openStationList': openModal(); break;
+
             case 'volumeKnob':
                 isDraggingVolume = true;
-                dragStartY = event.clientY;
-                dragStartVolume = volume;
                 controls.enabled = false;
+                break;
+            case 'volumeRail':
+                // Ein Klick auf die Schiene selbst = sofort dorthin springen (spart den Regler)
+                isDraggingVolume = true;
+                controls.enabled = false;
+                setVolume(volumeFromWorldY(hit.point.y));
+                break;
+
+            case 'stationKnob':
+                isDraggingStation = true;
+                controls.enabled = false;
+                break;
+            case 'stationRail':
+                isDraggingStation = true;
+                controls.enabled = false;
+                selectStation(stationIndexFromWorldX(hit.point.x), true);
                 break;
         }
     }
 
     function onPointerMove(event) {
         if (isDraggingVolume) {
-            const delta = (dragStartY - event.clientY) / 200; // nach oben ziehen = lauter
-            setVolume(dragStartVolume + delta);
+            updatePointer(event);
+            raycaster.setFromCamera(pointer, camera);
+            const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -VOL_RAIL_Z);
+            const p = new THREE.Vector3();
+            raycaster.ray.intersectPlane(plane, p);
+            if (p) setVolume(volumeFromWorldY(p.y));
+            return;
+        }
+        if (isDraggingStation) {
+            updatePointer(event);
+            raycaster.setFromCamera(pointer, camera);
+            const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -STA_RAIL_Z);
+            const p = new THREE.Vector3();
+            raycaster.ray.intersectPlane(plane, p);
+            if (p) {
+                const idx = stationIndexFromWorldX(p.x);
+                if (idx !== currentStationIndex) selectStation(idx, true);
+                else updateStationSliderPosition(); // sanftes Mitziehen ohne Neuwahl
+            }
             return;
         }
 
@@ -499,10 +605,8 @@
     }
 
     function onPointerUp() {
-        if (isDraggingVolume) {
-            isDraggingVolume = false;
-            controls.enabled = true;
-        }
+        if (isDraggingVolume) { isDraggingVolume = false; controls.enabled = true; }
+        if (isDraggingStation) { isDraggingStation = false; controls.enabled = true; }
     }
 
     // ---------- Senderliste (Modal) ----------
@@ -522,8 +626,7 @@
     function highlightActiveStationInList(index) {
         const container = document.getElementById('stationList');
         Array.from(container.children).forEach((child, i) => {
-            const isActive = stations[i] && i === index;
-            child.classList.toggle('active', !!isActive);
+            child.classList.toggle('active', stations[i] && i === index);
         });
     }
 
@@ -549,11 +652,17 @@
     function animate() {
         requestAnimationFrame(animate);
         controls.update();
-        if (audioCtx && panner) {
-            panner.positionX.setValueAtTime(camera.position.x, audioCtx.currentTime);
-            panner.positionY.setValueAtTime(camera.position.y, audioCtx.currentTime);
-            panner.positionZ.setValueAtTime(camera.position.z, audioCtx.currentTime);
+
+        if (isPlaying) {
+            const t = performance.now();
+            speakerParts.forEach((part, i) => {
+                const wobble = Math.sin(t * 0.03 + i) * 0.006 + (Math.random() - 0.5) * 0.003;
+                part.mesh.position.z = part.baseZ + wobble;
+            });
+        } else {
+            speakerParts.forEach(part => { part.mesh.position.z = part.baseZ; });
         }
+
         renderer.render(scene, camera);
     }
 
