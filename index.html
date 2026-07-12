@@ -3,358 +3,555 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klassisches 3D-Webradio</title>
+    <title>Interaktives 3D-Webradio</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #1a1a1a; font-family: sans-serif; user-select: none; }
+        body { margin: 0; overflow: hidden; background: #101012; font-family: 'Segoe UI', Tahoma, sans-serif; user-select: none; }
+        canvas { touch-action: none; }
         #hud {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #aaa;
-            pointer-events: none;
-            font-size: 1rem;
-            z-index: 10;
-            background: rgba(0,0,0,0.5);
-            padding: 15px;
-            border-radius: 8px;
-            line-height: 1.5;
+            position: absolute; top: 16px; left: 16px;
+            color: #ccc; pointer-events: none; font-size: 0.9rem;
+            background: rgba(0,0,0,0.5); padding: 12px 16px; border-radius: 8px; line-height: 1.5; z-index: 10;
         }
         #hud span { color: #1db954; font-weight: bold; }
         #instructions {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #888;
-            font-size: 0.85rem;
-            text-align: center;
-            pointer-events: none;
+            position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+            color: #888; font-size: 0.82rem; text-align: center; pointer-events: none; z-index: 10;
         }
+
+        /* Senderliste-Modal (per Klick aufs 3D-Display) */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 100;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: #1e1e1e; width: 90%; max-width: 400px; height: 78vh; border-radius: 15px;
+            padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .modal-header h2 { margin: 0; font-size: 1.3rem; color: #fff; }
+        .close-btn { background: none; border: none; color: #999; font-size: 1.8rem; cursor: pointer; line-height: 1; }
+        .close-btn:hover { color: #fff; }
+        .search-input {
+            width: 100%; padding: 12px; background: #282828; border: 1px solid #444; border-radius: 8px;
+            color: #fff; font-size: 1rem; box-sizing: border-box; margin-bottom: 12px;
+        }
+        .search-input:focus { outline: 1px solid #1db954; }
+        .station-list { flex: 1; overflow-y: auto; text-align: left; }
+        .station-item { padding: 13px 10px; border-bottom: 1px solid #282828; cursor: pointer; border-radius: 5px; color: #ddd; }
+        .station-item:hover { background: #2a2a2a; }
+        .station-item.active { color: #1db954; font-weight: bold; background: #222; }
+        .station-list::-webkit-scrollbar { width: 6px; }
+        .station-list::-webkit-scrollbar-thumb { background-color: #444; border-radius: 3px; }
     </style>
 </head>
 <body>
 
 <div id="hud">
     3D Radio-Status: <span id="status">Bereit</span><br>
-    Aktueller Sender: <span id="station-display">- Kein Sender (Bitte wählen) -</span><br>
-    Lautstärke: <span id="volume-display">50%</span>
+    Sender: <span id="station-display">-</span> &nbsp;|&nbsp; Lautstärke: <span id="volume-display">50%</span>
 </div>
 
 <div id="instructions">
-    Links-Klick + Ziehen auf Knöpfe/Regler zur Bedienung | Rechts-Klick + Ziehen zum Drehen der Kamera
+    Linksklick auf Knöpfe / Display / Lautstärkeknopf zur Bedienung &nbsp;|&nbsp; Rechtsklick + Ziehen: Kamera drehen &nbsp;|&nbsp; Mausrad: Zoom
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Sender wählen</h2>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <input type="text" class="search-input" id="searchInput" placeholder="Sender suchen..." oninput="filterStations()">
+        <div class="station-list" id="stationList"></div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
 <script>
-    let scene, camera, renderer, controls, raycaster, mouse;
+    // ---------- Grunddaten ----------
+    let scene, camera, renderer, controls, raycaster, pointer;
     let stations = [];
     let audioCtx, audioElement, panner;
-    let isPlaying = false, isMuted = false;
+    let isPlaying = false, isMuted = false, volume = 0.5;
+    let currentStationIndex = -1;
 
-    // 3D Radio-Komponenten
-    let playBtnMesh, muteBtnMesh, volumeSliderMesh;
-    let stationMeshes = [];
-    
-    // Dragging-Variablen für den Regler
+    // Fallback-Sender, falls stations.json nicht geladen werden kann (z.B. lokal ohne Server)
+    const FALLBACK_STATIONS = [
+        { name: "SomaFM Groove Salad (Demo)", url: "https://ice1.somafm.com/groovesalad-128-mp3" },
+        { name: "SomaFM Drone Zone (Demo)", url: "https://ice1.somafm.com/dronezone-128-mp3" },
+        { name: "SomaFM Indie Pop Rocks (Demo)", url: "https://ice1.somafm.com/indiepop-128-mp3" }
+    ];
+
+    // 3D-Objekte
+    let playBtnMesh, muteBtnMesh, nextBtnMesh, prevBtnMesh, volumeKnobMesh, volumeIndicatorMesh, displayMesh;
+    let interactiveObjects = [];
+    let hoveredObject = null;
+
+    // Drag-Status für den Lautstärkeknopf
     let isDraggingVolume = false;
-    const railX = 0.7;
-    const railWidth = 1.2;
-    const minX = railX - (railWidth / 2);
-    const maxX = railX + (railWidth / 2);
+    let dragStartY = 0;
+    let dragStartVolume = 0.5;
+    const KNOB_MIN_DEG = -135;
+    const KNOB_MAX_DEG = 135;
+
+    // Display-Textur
+    let displayCanvas, displayCtx, displayTexture;
 
     async function init() {
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x141416);
 
         camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 1.5, 5); // Kamera etwas näher ran für leichtere Bedienung
+        camera.position.set(0, 1.4, 5);
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
-        // OrbitControls anpassen: Linksklick für Radio-Bedienung, Rechtsklick/Zwei-Finger für Kamera
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.minDistance = 2.5;
         controls.maxDistance = 10;
-        controls.mouseButtons = {
-            LEFT: THREE.MOUSE.NONE, // Linksklick für Orbit deaktivieren, damit wir ungestört klicken können
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: THREE.MOUSE.ROTATE
-        };
+        // Linksklick wird NICHT von OrbitControls verarbeitet -> steht komplett für die Bedienung zur Verfügung
+        controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
         raycaster = new THREE.Raycaster();
-        mouse = new THREE.Vector2();
+        pointer = new THREE.Vector2();
 
-        // Lichtquellen
-        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambient);
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.75);
         dirLight.position.set(5, 10, 7);
         scene.add(dirLight);
 
-        // Tischplatte
-        const table = new THREE.Mesh(new THREE.BoxGeometry(12, 0.1, 6), new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 }));
+        const table = new THREE.Mesh(
+            new THREE.BoxGeometry(12, 0.1, 6),
+            new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 })
+        );
         table.position.y = -1.55;
         scene.add(table);
 
         buildRadio();
+        await loadStations();
 
-        // Sender aus stations.json laden
-        try {
-            const res = await fetch('stations.json');
-            stations = await res.json();
-            buildStationMenu();
-        } catch(e) {
-            document.getElementById('status').innerText = "Fehler: stations.json fehlt!";
-        }
-
-        // Event-Listener für präzise Maus-Interaktion
-        window.addEventListener('mousedown', onMouseDown);
-        window.addEventListener('mousemove', onMouseMove);
-        window.addEventListener('mouseup', onMouseUp);
+        renderer.domElement.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
         window.addEventListener('resize', onWindowResize);
-        
+
         animate();
     }
 
+    // ---------- Aufbau des 3D-Radios ----------
     function buildRadio() {
-        // Holzgehäuse
         const radioBody = new THREE.Mesh(
-            new THREE.BoxGeometry(4, 2.5, 2), 
+            new THREE.BoxGeometry(4, 2.6, 2),
             new THREE.MeshStandardMaterial({ color: 0x6e4720, roughness: 0.6 })
         );
-        radioBody.position.y = -0.3;
+        radioBody.position.y = -0.2;
         scene.add(radioBody);
 
-        // Frontblende
         const radioFace = new THREE.Mesh(
-            new THREE.BoxGeometry(3.7, 2.2, 0.1), 
-            new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.3 })
+            new THREE.BoxGeometry(3.7, 2.3, 0.1),
+            new THREE.MeshStandardMaterial({ color: 0x2b2b2b, roughness: 0.4 })
         );
-        radioFace.position.set(0, -0.3, 1);
+        radioFace.position.set(0, -0.2, 1);
         scene.add(radioFace);
 
         // Lautsprecher-Grill
         const grill = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.8, 0.8, 0.05, 32), 
-            new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.9 })
+            new THREE.CylinderGeometry(0.75, 0.75, 0.05, 32),
+            new THREE.MeshStandardMaterial({ color: 0x0d0d0d, roughness: 0.9 })
         );
         grill.rotation.x = Math.PI / 2;
-        grill.position.set(-0.9, -0.3, 1.05);
+        grill.position.set(-1.1, -0.2, 1.06);
         scene.add(grill);
+        for (let r = 0.15; r < 0.7; r += 0.14) {
+            const ring = new THREE.Mesh(
+                new THREE.TorusGeometry(r, 0.01, 8, 32),
+                new THREE.MeshStandardMaterial({ color: 0x333333 })
+            );
+            ring.position.set(-1.1, -0.2, 1.09);
+            scene.add(ring);
+        }
 
-        // Play/Pause Button (Groß, grün)
+        // ---- Display (Canvas-Textur) ----
+        displayCanvas = document.createElement('canvas');
+        displayCanvas.width = 512; displayCanvas.height = 256;
+        displayCtx = displayCanvas.getContext('2d');
+        displayTexture = new THREE.CanvasTexture(displayCanvas);
+        displayMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(1.5, 0.75),
+            new THREE.MeshBasicMaterial({ map: displayTexture })
+        );
+        displayMesh.position.set(0.05, 0.45, 1.06);
+        displayMesh.userData = { type: 'openStationList' };
+        scene.add(displayMesh);
+        interactiveObjects.push(displayMesh);
+        redrawDisplay();
+
+        // ---- Play/Pause ----
         playBtnMesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.2, 0.2, 0.15, 32), 
+            new THREE.CylinderGeometry(0.22, 0.22, 0.15, 32),
             new THREE.MeshStandardMaterial({ color: 0x1db954, roughness: 0.4 })
         );
         playBtnMesh.rotation.x = Math.PI / 2;
-        playBtnMesh.position.set(0.4, -0.9, 1.05);
-        playBtnMesh.userData = { type: 'play' };
+        playBtnMesh.position.set(-0.75, -0.85, 1.08);
+        playBtnMesh.userData = { type: 'play', baseZ: 1.08, pressedZ: 1.02 };
         scene.add(playBtnMesh);
+        interactiveObjects.push(playBtnMesh);
 
-        // Mute Button (Klein, grau/rot)
+        // ---- Mute ----
         muteBtnMesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.14, 0.14, 0.15, 32), 
+            new THREE.CylinderGeometry(0.16, 0.16, 0.15, 32),
             new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4 })
         );
         muteBtnMesh.rotation.x = Math.PI / 2;
-        muteBtnMesh.position.set(1.1, -0.9, 1.05);
-        muteBtnMesh.userData = { type: 'mute' };
+        muteBtnMesh.position.set(-0.15, -0.85, 1.08);
+        muteBtnMesh.userData = { type: 'mute', baseZ: 1.08, pressedZ: 1.02 };
         scene.add(muteBtnMesh);
+        interactiveObjects.push(muteBtnMesh);
 
-        // Lautstärkeschiene
-        const rail = new THREE.Mesh(
-            new THREE.BoxGeometry(railWidth, 0.04, 0.04), 
-            new THREE.MeshStandardMaterial({ color: 0x111111 })
+        // ---- Vorheriger / Nächster Sender ----
+        prevBtnMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(0.28, 0.28, 0.15),
+            new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.4 })
         );
-        rail.position.set(railX, -0.4, 1.05);
-        scene.add(rail);
+        prevBtnMesh.position.set(-1.35, -0.85, 1.08);
+        prevBtnMesh.userData = { type: 'prev', baseZ: 1.08, pressedZ: 1.02 };
+        scene.add(prevBtnMesh);
+        interactiveObjects.push(prevBtnMesh);
 
-        // Der bewegliche Regler-Knopf
-        volumeSliderMesh = new THREE.Mesh(
-            new THREE.BoxGeometry(0.08, 0.2, 0.1), 
-            new THREE.MeshStandardMaterial({ color: 0x007acc, roughness: 0.2 })
+        nextBtnMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(0.28, 0.28, 0.15),
+            new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.4 })
         );
-        volumeSliderMesh.position.set(railX, -0.4, 1.08); // Start bei 50%
-        volumeSliderMesh.userData = { type: 'volume' };
-        scene.add(volumeSliderMesh);
+        nextBtnMesh.position.set(0.45, -0.85, 1.08);
+        nextBtnMesh.userData = { type: 'next', baseZ: 1.08, pressedZ: 1.02 };
+        scene.add(nextBtnMesh);
+        interactiveObjects.push(nextBtnMesh);
+
+        // ---- Lautstärkeknopf (drehbar) ----
+        volumeKnobMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.26, 0.26, 0.18, 32),
+            new THREE.MeshStandardMaterial({ color: 0x007acc, roughness: 0.3 })
+        );
+        volumeKnobMesh.rotation.x = Math.PI / 2;
+        volumeKnobMesh.position.set(1.35, -0.2, 1.09);
+        volumeKnobMesh.userData = { type: 'volumeKnob' };
+        scene.add(volumeKnobMesh);
+        interactiveObjects.push(volumeKnobMesh);
+
+        // Markierungsstrich auf dem Lautstärkeknopf (zeigt Drehposition)
+        volumeIndicatorMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(0.03, 0.2, 0.03),
+            new THREE.MeshStandardMaterial({ color: 0xffffff })
+        );
+        volumeIndicatorMesh.position.set(0, 0.13, 0.1);
+        volumeKnobMesh.add(volumeIndicatorMesh);
+
+        updateVolumeKnobRotation();
     }
 
-    function buildStationMenu() {
-        // Generiert bis zu 4 Schilder direkt auf der Front des Radios
-        stations.slice(0, 4).forEach((station, i) => {
-            const labelMesh = new THREE.Mesh(
-                new THREE.BoxGeometry(1.3, 0.2, 0.03), 
-                new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.5 })
-            );
-            labelMesh.position.set(0.7, 0.5 - (i * 0.26), 1.05);
-            labelMesh.userData = { type: 'station', url: station.url, name: station.name, index: i };
-            
-            scene.add(labelMesh);
-            stationMeshes.push(labelMesh);
-        });
+    function redrawDisplay() {
+        const ctx = displayCtx;
+        ctx.fillStyle = '#001a08';
+        ctx.fillRect(0, 0, 512, 256);
+        ctx.strokeStyle = '#1db954';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(3, 3, 506, 250);
+
+        ctx.fillStyle = '#1db954';
+        ctx.font = 'bold 30px monospace';
+        ctx.textAlign = 'center';
+        const name = currentStationIndex >= 0 && stations[currentStationIndex] ? stations[currentStationIndex].name : 'Kein Sender';
+        wrapText(ctx, name, 256, 70, 460, 34);
+
+        ctx.font = '20px monospace';
+        ctx.fillStyle = '#8fe3af';
+        const statusText = document.getElementById('status') ? document.getElementById('status').innerText : 'Bereit';
+        ctx.fillText(statusText, 256, 150);
+
+        // Lautstärke-Balken
+        ctx.strokeStyle = '#1db954';
+        ctx.strokeRect(106, 180, 300, 22);
+        ctx.fillStyle = '#1db954';
+        ctx.fillRect(108, 182, 296 * volume, 18);
+        ctx.font = '14px monospace';
+        ctx.fillStyle = '#8fe3af';
+        ctx.fillText('Klicken für Senderliste', 256, 235);
+
+        displayTexture.needsUpdate = true;
     }
 
-    // --- AUDIO CORE ---
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+        const words = text.split(' ');
+        let line = '';
+        let curY = y;
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n] + ' ';
+            if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+                ctx.fillText(line, x, curY);
+                line = words[n] + ' ';
+                curY += lineHeight;
+            } else {
+                line = testLine;
+            }
+        }
+        ctx.fillText(line, x, curY);
+    }
+
+    function updateVolumeKnobRotation() {
+        const deg = KNOB_MIN_DEG + volume * (KNOB_MAX_DEG - KNOB_MIN_DEG);
+        volumeKnobMesh.rotation.z = THREE.MathUtils.degToRad(deg);
+    }
+
+    // ---------- Sender laden ----------
+    async function loadStations() {
+        try {
+            const res = await fetch('stations.json');
+            if (!res.ok) throw new Error('stations.json nicht gefunden');
+            stations = await res.json();
+            if (!Array.isArray(stations) || stations.length === 0) throw new Error('leer');
+            setStatus('Bereit');
+        } catch (e) {
+            stations = FALLBACK_STATIONS;
+            setStatus('stations.json fehlt – Demo-Sender geladen');
+        }
+        renderStationList(stations);
+        if (stations.length > 0) selectStation(0, false);
+        redrawDisplay();
+    }
+
+    // ---------- Audio ----------
     function initAudio() {
         if (audioCtx) return;
-        
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         audioElement = new Audio();
-        audioElement.crossOrigin = "anonymous"; 
-        audioElement.volume = 0.5;
+        audioElement.crossOrigin = 'anonymous';
+        audioElement.volume = volume;
 
         const source = audioCtx.createMediaElementSource(audioElement);
         panner = audioCtx.createPanner();
         panner.panningModel = 'HRTF';
-
         source.connect(panner);
         panner.connect(audioCtx.destination);
     }
 
-    // --- INTERAKTIONSLOGIK ---
-    function onMouseDown(event) {
-        if (event.button !== 0) return; // Nur Linksklick erlauben
-
-        updateMouseCoords(event);
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-
-        if (intersects.length > 0) {
-            const obj = intersects[0].object;
-            const data = obj.userData;
-
-            if (!data.type) return;
-            
-            initAudio();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-
-            // 1. KNOPF: PLAY/PAUSE
-            if (data.type === 'play') {
-                if (!audioElement.src && stations.length > 0) selectStation(0);
-                togglePlay();
-            }
-            
-            // 2. KNOPF: MUTE
-            else if (data.type === 'mute') {
-                toggleMute();
-            }
-
-            // 3. SENDERLISTE
-            else if (data.type === 'station') {
-                selectStation(data.index);
-            }
-
-            // 4. REGELUNG STARTEN (VOLUME)
-            else if (data.type === 'volume') {
-                isDraggingVolume = true;
-                // Deaktiviere Kamera-Damping während des Ziehens
-                controls.enabled = false;
-            }
-        }
-    }
-
-    function onMouseMove(event) {
-        if (!isDraggingVolume) return;
-
-        updateMouseCoords(event);
-        raycaster.setFromCamera(mouse, camera);
-        
-        // Erzeuge eine virtuelle mathematische Ebene auf der Radiofront, um die Mausposition im Raum zu bestimmen
-        const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -1.08);
-        const intersectionPoint = new THREE.Vector3();
-        raycaster.ray.intersectPlane(plane, intersectionPoint);
-
-        if (intersectionPoint) {
-            // Begrenze die Bewegung auf die Schiene
-            const newX = Math.max(minX, Math.min(maxX, intersectionPoint.x));
-            volumeSliderMesh.position.x = newX;
-
-            // Prozentwert berechnen und an Audio übergeben
-            const volumePercent = (newX - minX) / railWidth;
-            if (audioElement) {
-                audioElement.volume = volumePercent;
-            }
-            document.getElementById('volume-display').innerText = `${Math.round(volumePercent * 100)}%`;
-        }
-    }
-
-    function onMouseUp() {
-        if (isDraggingVolume) {
-            isDraggingVolume = false;
-            controls.enabled = true; // Kamera wieder freigeben
-        }
-    }
-
-    function updateMouseCoords(event) {
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    }
-
-    // --- HILFSFUNKTIONEN FÜR AUDIO-STEUERUNG ---
-    function selectStation(index) {
+    function selectStation(index, autoplay = true) {
+        if (index < 0 || index >= stations.length) return;
+        currentStationIndex = index;
         const s = stations[index];
-        document.getElementById('station-display').innerText = s.name;
-        document.getElementById('status').innerText = "Verbinde Stream...";
-        
-        audioElement.src = s.url;
-        
-        audioElement.play().then(() => {
-            isPlaying = true;
-            playBtnMesh.position.z = 1.02; // Visuell reingedrückt
-            document.getElementById('status').innerText = "Spielt live";
-        }).catch(err => {
-            console.error(err);
-            document.getElementById('status').innerText = "CORS / Stream-Fehler!";
-            isPlaying = false;
-            playBtnMesh.position.z = 1.05;
-        });
+        setStatus(autoplay ? 'Verbinde Stream...' : 'Bereit');
+        redrawDisplay();
 
-        // Schilder farblich markieren
-        stationMeshes.forEach((mesh, i) => {
-            mesh.material.color.setHex(i === index ? 0x1db954 : 0x2a2a2a);
-        });
+        if (autoplay) {
+            initAudio();
+            audioElement.src = s.url;
+            audioElement.play().then(() => {
+                isPlaying = true;
+                playBtnMesh.position.z = playBtnMesh.userData.pressedZ;
+                setStatus('Spielt live');
+                redrawDisplay();
+            }).catch(err => {
+                console.error(err);
+                isPlaying = false;
+                playBtnMesh.position.z = playBtnMesh.userData.baseZ;
+                setStatus('Stream-Fehler / CORS');
+                redrawDisplay();
+            });
+        }
+
+        highlightActiveStationInList(index);
     }
 
     function togglePlay() {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        if (currentStationIndex < 0 && stations.length > 0) {
+            selectStation(0, true);
+            return;
+        }
         if (!isPlaying) {
+            if (!audioElement.src) { selectStation(currentStationIndex, true); return; }
             audioElement.play().then(() => {
                 isPlaying = true;
-                playBtnMesh.position.z = 1.02;
-                document.getElementById('status').innerText = "Spielt live";
-            });
+                playBtnMesh.position.z = playBtnMesh.userData.pressedZ;
+                setStatus('Spielt live');
+                redrawDisplay();
+            }).catch(() => { setStatus('Wiedergabe blockiert'); redrawDisplay(); });
         } else {
             audioElement.pause();
             isPlaying = false;
-            playBtnMesh.position.z = 1.05;
-            document.getElementById('status').innerText = "Pausiert";
+            playBtnMesh.position.z = playBtnMesh.userData.baseZ;
+            setStatus('Pausiert');
+            redrawDisplay();
         }
     }
 
     function toggleMute() {
         isMuted = !isMuted;
-        audioElement.muted = isMuted;
+        if (audioElement) audioElement.muted = isMuted;
         muteBtnMesh.material.color.setHex(isMuted ? 0xd11a2a : 0x555555);
-        muteBtnMesh.position.z = isMuted ? 1.02 : 1.05;
+        muteBtnMesh.position.z = isMuted ? muteBtnMesh.userData.pressedZ : muteBtnMesh.userData.baseZ;
     }
 
+    function nextStation() {
+        if (stations.length === 0) return;
+        const idx = (currentStationIndex + 1) % stations.length;
+        selectStation(idx, true);
+    }
+
+    function prevStation() {
+        if (stations.length === 0) return;
+        const idx = (currentStationIndex - 1 + stations.length) % stations.length;
+        selectStation(idx, true);
+    }
+
+    function setVolume(v) {
+        volume = Math.max(0, Math.min(1, v));
+        if (audioElement) audioElement.volume = volume;
+        document.getElementById('volume-display').innerText = `${Math.round(volume * 100)}%`;
+        updateVolumeKnobRotation();
+        redrawDisplay();
+    }
+
+    function setStatus(msg) {
+        document.getElementById('status').innerText = msg;
+    }
+
+    // ---------- Pointer-Interaktion (Maus + Touch) ----------
+    function updatePointer(event) {
+        pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    function pressAnim(mesh) {
+        if (!mesh.userData.baseZ) return;
+        const original = mesh.position.z;
+        mesh.position.z = mesh.userData.pressedZ;
+        setTimeout(() => {
+            // Play/Mute behalten ihren Zustand selbst; Prev/Next federn zurück
+            if (mesh.userData.type === 'prev' || mesh.userData.type === 'next') {
+                mesh.position.z = mesh.userData.baseZ;
+            }
+        }, 120);
+    }
+
+    function onPointerDown(event) {
+        if (event.button !== 0) return; // nur Linksklick / primärer Touch
+        updatePointer(event);
+        raycaster.setFromCamera(pointer, camera);
+        const intersects = raycaster.intersectObjects(interactiveObjects);
+        if (intersects.length === 0) return;
+
+        const obj = intersects[0].object;
+        const data = obj.userData;
+
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        switch (data.type) {
+            case 'play': togglePlay(); pressAnim(obj); break;
+            case 'mute': toggleMute(); break;
+            case 'next': nextStation(); pressAnim(obj); break;
+            case 'prev': prevStation(); pressAnim(obj); break;
+            case 'openStationList': openModal(); break;
+            case 'volumeKnob':
+                isDraggingVolume = true;
+                dragStartY = event.clientY;
+                dragStartVolume = volume;
+                controls.enabled = false;
+                break;
+        }
+    }
+
+    function onPointerMove(event) {
+        if (isDraggingVolume) {
+            const delta = (dragStartY - event.clientY) / 200; // nach oben ziehen = lauter
+            setVolume(dragStartVolume + delta);
+            return;
+        }
+
+        // Hover-Feedback
+        updatePointer(event);
+        raycaster.setFromCamera(pointer, camera);
+        const intersects = raycaster.intersectObjects(interactiveObjects);
+        const obj = intersects.length > 0 ? intersects[0].object : null;
+
+        if (obj !== hoveredObject) {
+            if (hoveredObject && hoveredObject.material.emissive) {
+                hoveredObject.material.emissive.setHex(0x000000);
+            }
+            hoveredObject = obj;
+            if (hoveredObject && hoveredObject.material.emissive) {
+                hoveredObject.material.emissive.setHex(0x333333);
+            }
+            renderer.domElement.style.cursor = obj ? 'pointer' : 'default';
+        }
+    }
+
+    function onPointerUp() {
+        if (isDraggingVolume) {
+            isDraggingVolume = false;
+            controls.enabled = true;
+        }
+    }
+
+    // ---------- Senderliste (Modal) ----------
+    function renderStationList(list) {
+        const container = document.getElementById('stationList');
+        container.innerHTML = '';
+        list.forEach((station) => {
+            const realIndex = stations.findIndex(s => s.url === station.url);
+            const div = document.createElement('div');
+            div.className = 'station-item' + (realIndex === currentStationIndex ? ' active' : '');
+            div.innerText = station.name;
+            div.onclick = () => { selectStation(realIndex, true); closeModal(); };
+            container.appendChild(div);
+        });
+    }
+
+    function highlightActiveStationInList(index) {
+        const container = document.getElementById('stationList');
+        Array.from(container.children).forEach((child, i) => {
+            const isActive = stations[i] && i === index;
+            child.classList.toggle('active', !!isActive);
+        });
+    }
+
+    function filterStations() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        renderStationList(stations.filter(s => s.name.toLowerCase().includes(query)));
+    }
+
+    function openModal() {
+        document.getElementById('modalOverlay').classList.add('open');
+        document.getElementById('searchInput').value = '';
+        renderStationList(stations);
+        document.getElementById('searchInput').focus();
+    }
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+    function closeModalOnOverlay(e) {
+        if (e.target.id === 'modalOverlay') closeModal();
+    }
+
+    // ---------- Render-Loop ----------
     function animate() {
         requestAnimationFrame(animate);
         controls.update();
-
-        // 3D-Raumklang-Berechnung (Kamera-Abstand simuliert Ohren)
         if (audioCtx && panner) {
             panner.positionX.setValueAtTime(camera.position.x, audioCtx.currentTime);
             panner.positionY.setValueAtTime(camera.position.y, audioCtx.currentTime);
             panner.positionZ.setValueAtTime(camera.position.z, audioCtx.currentTime);
         }
-
         renderer.render(scene, camera);
     }
 
@@ -364,6 +561,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
+    setVolume(0.5);
     window.onload = init;
 </script>
 </body>
