@@ -254,10 +254,11 @@
         volumeIndicatorMesh.position.set(0, 0.13, 0.1);
         volumeKnobMesh.add(volumeIndicatorMesh);
 
-        updateVolumeKnobRotation();
+        setVolume(volume);
     }
 
     function redrawDisplay() {
+        if (!displayCtx) return;
         const ctx = displayCtx;
         ctx.fillStyle = '#001a08';
         ctx.fillRect(0, 0, 512, 256);
@@ -306,6 +307,7 @@
     }
 
     function updateVolumeKnobRotation() {
+        if (!volumeKnobMesh) return;
         const deg = KNOB_MIN_DEG + volume * (KNOB_MAX_DEG - KNOB_MIN_DEG);
         volumeKnobMesh.rotation.z = THREE.MathUtils.degToRad(deg);
     }
@@ -561,7 +563,6 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    setVolume(0.5);
     window.onload = init;
 </script>
 </body>
