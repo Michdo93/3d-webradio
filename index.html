@@ -361,23 +361,44 @@
     }
 
     // ---------- Playlist-Auflösung (.m3u / .pls) ----------
+    // fetch() verlangt (anders als <audio src>) IMMER CORS-Header für Cross-Origin-Text.
+    // Viele Playlist-Server senden keine -> zuerst direkt versuchen, sonst über einen
+    // öffentlichen CORS-Proxy ausweichen (nur für den Text der Playlist, nicht für den Stream selbst).
+    async function fetchTextWithCorsFallback(url) {
+        try {
+            const res = await fetch(url);
+            if (res.ok) return await res.text();
+        } catch (e) { /* weiter zu Fallback */ }
+
+        try {
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+            const res2 = await fetch(proxyUrl);
+            if (res2.ok) return await res2.text();
+        } catch (e) { /* weiter zu Fallback */ }
+
+        return null;
+    }
+
+    function parsePlaylistText(text) {
+        const lines = text.split(/\r?\n/);
+        for (const raw of lines) {
+            const line = raw.trim();
+            if (!line || line.startsWith('#')) continue;
+            if (/^https?:\/\//i.test(line)) return line;
+            const plsMatch = line.match(/^File\d*=(.+)$/i);
+            if (plsMatch) return plsMatch[1].trim();
+        }
+        return null;
+    }
+
     async function resolveStreamUrl(url) {
         if (/\.(m3u8?|pls)(\?.*)?$/i.test(url)) {
-            try {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('Playlist nicht erreichbar');
-                const text = await res.text();
-                const lines = text.split(/\r?\n/);
-                for (const raw of lines) {
-                    const line = raw.trim();
-                    if (!line || line.startsWith('#')) continue;
-                    if (/^https?:\/\//i.test(line)) return line;
-                    const plsMatch = line.match(/^File\d*=(.+)$/i);
-                    if (plsMatch) return plsMatch[1].trim();
-                }
-            } catch (e) {
-                console.warn('Playlist konnte nicht aufgelöst werden, versuche Original-URL:', e);
+            const text = await fetchTextWithCorsFallback(url);
+            if (text) {
+                const resolved = parsePlaylistText(text);
+                if (resolved) return resolved;
             }
+            console.warn('Playlist konnte nicht aufgelöst werden, versuche Original-URL direkt.');
         }
         return url;
     }
@@ -656,7 +677,7 @@
         if (isPlaying) {
             const t = performance.now();
             speakerParts.forEach((part, i) => {
-                const wobble = Math.sin(t * 0.03 + i) * 0.006 + (Math.random() - 0.5) * 0.003;
+                const wobble = Math.sin(t * 0.0018 + i * 0.6) * 0.0025;
                 part.mesh.position.z = part.baseZ + wobble;
             });
         } else {
