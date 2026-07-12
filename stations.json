@@ -1,375 +1,375 @@
 [
   {
     "name": "88vier",
-    "url": "https://ice.rosebud-media.de:8000/88vier.m3u"
+    "url": "http://ice.rosebud-media.de:8000/88vier.m3u"
   },
   {
     "name": "Antenne MV",
-    "url": "https://streams.antennemv.de/antennemv-live/mp3-192/amv"
+    "url": "http://streams.antennemv.de/antennemv-live/mp3-192/amv"
   },
   {
     "name": "Antenne Thueringen",
-    "url": "https://stream.antennethueringen.de/live/mp3-128/"
+    "url": "http://stream.antennethueringen.de/live/mp3-128/"
   },
   {
     "name": "bermuda funk",
-    "url": "https://streaming.fueralle.org:8000/bermudafunk.ogg.m3u"
+    "url": "http://streaming.fueralle.org:8000/bermudafunk.ogg.m3u"
   },
   {
     "name": "BLACKBEATS FM",
-    "url": "https://blackbeats.fm/listen.m3u"
+    "url": "http://blackbeats.fm/listen.m3u"
   },
   {
     "name": "ByteFM",
-    "url": "https://www.byte.fm/stream/bytefm.m3u"
+    "url": "http://www.byte.fm/stream/bytefm.m3u"
   },
   {
     "name": "delta radio",
-    "url": "https://streams.deltaradio.de/delta-live/mp3-192/mediaplayerdeltaradio"
+    "url": "http://streams.deltaradio.de/delta-live/mp3-192/mediaplayerdeltaradio"
   },
   {
     "name": "Die Neue Welle",
-    "url": "https://www.meine-neue-welle.de/dnw_128.m3u"
+    "url": "http://www.meine-neue-welle.de/dnw_128.m3u"
   },
   {
     "name": "eldoradio",
-    "url": "https://sender.eldoradio.de:8000/128.mp3"
+    "url": "http://sender.eldoradio.de:8000/128.mp3"
   },
   {
     "name": "ffn Niedersachsen",
-    "url": "https://player.ffn.de/ffn.mp3"
+    "url": "http://player.ffn.de/ffn.mp3"
   },
   {
     "name": "Harmony FM",
-    "url": "https://mp3.harmonyfm.de/harmonyfm/hqlivestream.mp3"
+    "url": "http://mp3.harmonyfm.de/harmonyfm/hqlivestream.mp3"
   },
   {
     "name": "Kiss FM Berlin",
-    "url": "https://topradio-de-hz-fal-stream09-cluster01.radiohost.de/kissfm_128"
+    "url": "http://topradio-de-hz-fal-stream09-cluster01.radiohost.de/kissfm_128"
   },
   {
     "name": "Klassik Radio",
-    "url": "https://stream.klassikradio.de/live/mp3-192/stream.klassikradio.de/"
+    "url": "http://stream.klassikradio.de/live/mp3-192/stream.klassikradio.de/"
   },
   {
     "name": "Landeswelle Thueringen",
-    "url": "https://stream.landeswelle.de/lwt/mp3-128/web/stream.mp3"
+    "url": "http://stream.landeswelle.de/lwt/mp3-128/web/stream.mp3"
   },
   {
     "name": "LORA Muenchen 92 4",
-    "url": "https://live.lora924.de:8000/lora-hq.mp3"
+    "url": "http://live.lora924.de:8000/lora-hq.mp3"
   },
   {
     "name": "LOHRO",
-    "url": "https://stream.lohro.de:8000/lohro_vorbis.ogg"
+    "url": "http://stream.lohro.de:8000/lohro_vorbis.ogg"
   },
   {
     "name": "NOXX",
-    "url": "https://stream.lokalradio.nrw/4459jmc"
+    "url": "http://stream.lokalradio.nrw/4459jmc"
   },
   {
     "name": "Offener Hoerfunkkanal Eisenach",
-    "url": "https://tbradio.de/wartburgradio.m3u"
+    "url": "http://tbradio.de/wartburgradio.m3u"
   },
   {
     "name": "Planet Radio",
-    "url": "https://mp3.planetradio.de/planetradio/hqlivestream.mp3"
+    "url": "http://mp3.planetradio.de/planetradio/hqlivestream.mp3"
   },
   {
     "name": "Querfunk",
-    "url": "https://mp3.querfunk.de/qfhi"
+    "url": "http://mp3.querfunk.de/qfhi"
   },
   {
     "name": "Radio Blau",
-    "url": "https://stream.radioblau.de/"
+    "url": "http://stream.radioblau.de/"
   },
   {
     "name": "Radio Corax",
-    "url": "https://streaming.fueralle.org:8000/corax.mp3.m3u"
+    "url": "http://streaming.fueralle.org:8000/corax.mp3.m3u"
   },
   {
     "name": "Radio Dreyeckland",
-    "url": "https://www.rdl.de:8000/rdl.m3u"
+    "url": "http://www.rdl.de:8000/rdl.m3u"
   },
   {
     "name": "Radio F 94 5 Nuernberg",
-    "url": "https://webstream.radiof.de/radiof"
+    "url": "http://webstream.radiof.de/radiof"
   },
   {
     "name": "Radio Gong 97 1 Nuernberg",
-    "url": "https://webstream.gong971.de/gong971"
+    "url": "http://webstream.gong971.de/gong971"
   },
   {
     "name": "Radio Mainwelle Bayreuth 104 3",
-    "url": "https://webstream.mainwelle.de/radio-mainwelle.mp3"
+    "url": "http://webstream.mainwelle.de/radio-mainwelle.mp3"
   },
   {
     "name": "Radio N1 92 9 Nuernberg",
-    "url": "https://webstream.hitradion1.de/hitradion1"
+    "url": "http://webstream.hitradion1.de/hitradion1"
   },
   {
     "name": "Radio PSR",
-    "url": "https://streams.radiopsr.de/psr-live/mp3-192/listenlive/play.m3u"
+    "url": "http://streams.radiopsr.de/psr-live/mp3-192/listenlive/play.m3u"
   },
   {
     "name": "Radio StHoerfunk",
-    "url": "https://stream.sthoerfunk.de:7000/sthoerfunk.ogg"
+    "url": "http://stream.sthoerfunk.de:7000/sthoerfunk.ogg"
   },
   {
     "name": "Radio T",
-    "url": "https://streaming.fueralle.org:8000/radiot.mp3"
+    "url": "http://streaming.fueralle.org:8000/radiot.mp3"
   },
   {
     "name": "Radio Z",
-    "url": "https://snd.radio-z.net:8000/Radio-Z"
+    "url": "http://snd.radio-z.net:8000/Radio-Z"
   },
   {
     "name": "SachsenAnhalt Welle",
-    "url": "https://stream.radiosaw.de/saw/mp3-128/stream.mp3"
+    "url": "http://stream.radiosaw.de/saw/mp3-128/stream.mp3"
   },
   {
     "name": "Antenne1",
-    "url": "https://stream.antenne1.de/a1stg/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/a1stg/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 80er",
-    "url": "https://stream.antenne1.de/80er/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/80er/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 90er",
-    "url": "https://stream.antenne1.de/90er/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/90er/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 2000er",
-    "url": "https://stream.antenne1.de/2000er/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/2000er/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 Top40",
-    "url": "https://stream.antenne1.de/top40/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/top40/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 ClassicRock",
-    "url": "https://stream.antenne1.de/rock/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/rock/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 ModernRock",
-    "url": "https://stream.antenne1.de/modernrock/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/modernrock/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 SoftNLazy",
-    "url": "https://stream.antenne1.de/soft/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/soft/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 WeihnachtsHits",
-    "url": "https://stream.antenne1.de/weihnachtshits/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/weihnachtshits/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 SommerHits",
-    "url": "https://stream.antenne1.de/sommerhits/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/sommerhits/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 DeutschPop",
-    "url": "https://stream.antenne1.de/deutschpop/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/deutschpop/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 PartyKracher",
-    "url": "https://stream.antenne1.de/partykracher/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/partykracher/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 UnpluggedAcoustic",
-    "url": "https://stream.antenne1.de/unplugged/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/unplugged/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 Oldies",
-    "url": "https://stream.antenne1.de/oldies/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/oldies/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 InTheMix",
-    "url": "https://stream.antenne1.de/inthemix/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/inthemix/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "Antenne1 Schlager",
-    "url": "https://stream.antenne1.de/schlager/livestream2.mp3?usid=H-M-09-0-0"
+    "url": "http://stream.antenne1.de/schlager/livestream2.mp3?usid=H-M-09-0-0"
   },
   {
     "name": "RTL Berlin",
-    "url": "https://stream.104.6rtl.com/rtl-live/mp3-192"
+    "url": "http://stream.104.6rtl.com/rtl-live/mp3-192"
   },
   {
     "name": "Antenne Bayern",
-    "url": "https://mp3channels.webradio.antenne.de/antenne"
+    "url": "http://mp3channels.webradio.antenne.de/antenne"
   },
   {
     "name": "Antenne Bayern 80er Kulthits",
-    "url": "https://mp3channels.webradio.antenne.de/80er-kulthits"
+    "url": "http://mp3channels.webradio.antenne.de/80er-kulthits"
   },
   {
     "name": "Antenne Bayern 90er Hits",
-    "url": "https://mp3channels.webradio.antenne.de/90er-hits"
+    "url": "http://mp3channels.webradio.antenne.de/90er-hits"
   },
   {
     "name": "Antenne Bayern Black Beatz",
-    "url": "https://mp3channels.webradio.antenne.de/black-beatz"
+    "url": "http://mp3channels.webradio.antenne.de/black-beatz"
   },
   {
     "name": "Antenne Bayern Chillout",
-    "url": "https://mp3channels.webradio.antenne.de/chillout"
+    "url": "http://mp3channels.webradio.antenne.de/chillout"
   },
   {
     "name": "Antenne Bayern Classic Rock Live",
-    "url": "https://mp3channels.webradio.antenne.de/classic-rock-live"
+    "url": "http://mp3channels.webradio.antenne.de/classic-rock-live"
   },
   {
     "name": "Antenne Bayern Event",
-    "url": "https://mp3channels.webradio.antenne.de/event"
+    "url": "http://mp3channels.webradio.antenne.de/event"
   },
   {
     "name": "Antenne Bayern Fresh",
-    "url": "https://mp3channels.webradio.antenne.de/fresh"
+    "url": "http://mp3channels.webradio.antenne.de/fresh"
   },
   {
     "name": "Antenne Bayern Hits fuer Kids",
-    "url": "https://mp3channels.webradio.antenne.de/hits-fuer-kids"
+    "url": "http://mp3channels.webradio.antenne.de/hits-fuer-kids"
   },
   {
     "name": "Antenne Bayern Lovesongs",
-    "url": "https://mp3channels.webradio.antenne.de/lovesongs"
+    "url": "http://mp3channels.webradio.antenne.de/lovesongs"
   },
   {
     "name": "Antenne Bayern Oldies but Goldies",
-    "url": "https://mp3channels.webradio.antenne.de/oldies-but-goldies"
+    "url": "http://mp3channels.webradio.antenne.de/oldies-but-goldies"
   },
   {
     "name": "Antenne Bayern Rockantenne",
-    "url": "https://mp3channels.webradio.antenne.de/rockantenne"
+    "url": "http://mp3channels.webradio.antenne.de/rockantenne"
   },
   {
     "name": "Antenne Bayern Das Schlager Karussell",
-    "url": "https://mp3channels.webradio.antenne.de/das-schlager-karussell"
+    "url": "http://mp3channels.webradio.antenne.de/das-schlager-karussell"
   },
   {
     "name": "Antenne Bayern Top40",
-    "url": "https://mp3channels.webradio.antenne.de/top-40"
+    "url": "http://mp3channels.webradio.antenne.de/top-40"
   },
   {
     "name": "Antenne Bayern Weihnachts Hits",
-    "url": "https://mp3channels.webradio.antenne.de/weihnachts-hits"
+    "url": "http://mp3channels.webradio.antenne.de/weihnachts-hits"
   },
   {
     "name": "Antenne Bayern Workout Hits",
-    "url": "https://mp3channels.webradio.antenne.de/workout-hits"
+    "url": "http://mp3channels.webradio.antenne.de/workout-hits"
   },
   {
     "name": "Bayern1",
-    "url": "https://streams.br.de/bayern1_2.m3u"
+    "url": "http://streams.br.de/bayern1_2.m3u"
   },
   {
     "name": "Bayern2",
-    "url": "https://streams.br.de/bayern2_2.m3u"
+    "url": "http://streams.br.de/bayern2_2.m3u"
   },
   {
     "name": "Bayern3",
-    "url": "https://streams.br.de/bayern3_2.m3u"
+    "url": "http://streams.br.de/bayern3_2.m3u"
   },
   {
     "name": "BR Klassik",
-    "url": "https://streams.br.de/br-klassik_2.m3u"
+    "url": "http://streams.br.de/br-klassik_2.m3u"
   },
   {
     "name": "BR24",
-    "url": "https://streams.br.de/b5aktuell_2.m3u"
+    "url": "http://streams.br.de/b5aktuell_2.m3u"
   },
   {
     "name": "BR Schlager",
-    "url": "https://streams.br.de/bayernplus_2.m3u"
+    "url": "http://streams.br.de/bayernplus_2.m3u"
   },
   {
     "name": "BR Heimat",
-    "url": "https://streams.br.de/brheimat_2.m3u"
+    "url": "http://streams.br.de/brheimat_2.m3u"
   },
   {
     "name": "bigFM Deutschland",
-    "url": "https://streams.bigfm.de/bigfm-deutschland-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-deutschland-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Charts",
-    "url": "https://streams.bigfm.de/bigfm-charts-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-charts-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM HipHop",
-    "url": "https://streams.bigfm.de/bigfm-hiphop-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-hiphop-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Deutschrap",
-    "url": "https://streams.bigfm.de/bigfm-deutschrap-128-aac?usid=0-0-H-A-D-30s"
+    "url": "http://streams.bigfm.de/bigfm-deutschrap-128-aac?usid=0-0-H-A-D-30s"
   },
   {
     "name": "bigFM US Rap And HipHop",
-    "url": "https://streams.bigfm.de/bigfm-usrap-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-usrap-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Oldschool Rap And HipHop",
-    "url": "https://streams.bigfm.de/bigfm-oldschool-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-oldschool-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Dance",
-    "url": "https://streams.bigfm.de/bigfm-dance-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-dance-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Mashup",
-    "url": "https://streams.bigfm.de/bigfm-mashup-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-mashup-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Sunset Lounge",
-    "url": "https://streams.bigfm.de/bigfm-sunsetlounge-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-sunsetlounge-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Reggae Vibez",
-    "url": "https://streams.bigfm.de/bigfm-reggaevibes-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-reggaevibes-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Latin Beats",
-    "url": "https://streams.bigfm.de/bigfm-latinbeats-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-latinbeats-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Groovenight",
-    "url": "https://streams.bigfm.de/bigfm-groovenight-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-groovenight-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM Urban Club Beats",
-    "url": "https://streams.bigfm.de/bigfm-urbanclubbeats-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-urbanclubbeats-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM EDM And PROGRESSIVE",
-    "url": "https://streams.bigfm.de/bigfm-nitroxedm-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-nitroxedm-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM DEEP And Tech House",
-    "url": "https://streams.bigfm.de/bigfm-nitroxdeep-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-nitroxdeep-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM WORLDBEATS",
-    "url": "https://streams.bigfm.de/bigfm-worldbeats-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-worldbeats-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM TUERKCE WEB RADYOSU",
-    "url": "https://streams.bigfm.de/bigfm-turkey-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-turkey-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM BW",
-    "url": "https://streams.bigfm.de/bigfm-bw-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-bw-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "bigFM RP",
-    "url": "https://streams.bigfm.de/bigfm-rlp-128-aac?usid=0-0-H-A-D-30"
+    "url": "http://streams.bigfm.de/bigfm-rlp-128-aac?usid=0-0-H-A-D-30"
   },
   {
     "name": "detektor fm Wortstream",
-    "url": "https://detektor.fm/stream/mp3/wort/"
+    "url": "http://detektor.fm/stream/mp3/wort/"
   },
   {
     "name": "detektor fm Musikstream",
-    "url": "https://detektor.fm/stream/mp3/musik/"
+    "url": "http://detektor.fm/stream/mp3/musik/"
   },
   {
     "name": "Deutschlandfunk",
@@ -389,167 +389,167 @@
   },
   {
     "name": "NRj Berlin",
-    "url": "https://energyradio.de/berlin"
+    "url": "http://energyradio.de/berlin"
   },
   {
     "name": "NRj Hamburg",
-    "url": "https://energyradio.de/hamburg"
+    "url": "http://energyradio.de/hamburg"
   },
   {
     "name": "NRj Nuernberg",
-    "url": "https://energyradio.de/nuernberg"
+    "url": "http://energyradio.de/nuernberg"
   },
   {
     "name": "NRj Stuttgart",
-    "url": "https://energyradio.de/stuttgart"
+    "url": "http://energyradio.de/stuttgart"
   },
   {
     "name": "NRj Muenchen",
-    "url": "https://energyradio.de/muenchen"
+    "url": "http://energyradio.de/muenchen"
   },
   {
     "name": "NRj Sachsen",
-    "url": "https://energyradio.de/sachsen"
+    "url": "http://energyradio.de/sachsen"
   },
   {
     "name": "NRj Bremen",
-    "url": "https://energyradio.de/bremen"
+    "url": "http://energyradio.de/bremen"
   },
   {
     "name": "NRj Dance",
-    "url": "https://energyradio.de/dance"
+    "url": "http://energyradio.de/dance"
   },
   {
     "name": "NRj RNB",
-    "url": "https://energyradio.de/rnb"
+    "url": "http://energyradio.de/rnb"
   },
   {
     "name": "NRj Pop",
-    "url": "https://energyradio.de/pop"
+    "url": "http://energyradio.de/pop"
   },
   {
     "name": "NRj Rock",
-    "url": "https://energyradio.de/rock"
+    "url": "http://energyradio.de/rock"
   },
   {
     "name": "NRj Love",
-    "url": "https://energyradio.de/love"
+    "url": "http://energyradio.de/love"
   },
   {
     "name": "FluxFM",
-    "url": "https://streams.fluxfm.de/live/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/live/mp3-128/audio/"
   },
   {
     "name": "FluxFM Klubradio",
-    "url": "https://streams.fluxfm.de/klubradio/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/klubradio/mp3-128/audio/"
   },
   {
     "name": "FluxFM BoomFM",
-    "url": "https://streams.fluxfm.de/boomfm/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/boomfm/mp3-128/audio/"
   },
   {
     "name": "FluxFM MetalFM",
-    "url": "https://streams.fluxfm.de/metalfm/mp3-128/radiode/"
+    "url": "http://streams.fluxfm.de/metalfm/mp3-128/radiode/"
   },
   {
     "name": "FluxFM FluxLounge",
-    "url": "https://streams.fluxfm.de/lounge/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/lounge/mp3-128/audio/"
   },
   {
     "name": "FluxFM neoFM",
-    "url": "https://streams.fluxfm.de/neofm/mp3-128/radiode/"
+    "url": "http://streams.fluxfm.de/neofm/mp3-128/radiode/"
   },
   {
     "name": "FluxFM Riot Radio",
-    "url": "https://streams.fluxfm.de/riot/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/riot/mp3-128/audio/"
   },
   {
     "name": "FluxFM FluxKompensator",
-    "url": "https://streams.fluxfm.de/fluxkompensator/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/fluxkompensator/mp3-128/audio/"
   },
   {
     "name": "FluxFM Clubsandwich",
-    "url": "https://streams.fluxfm.de/clubsandwich/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/clubsandwich/mp3-128/audio/"
   },
   {
     "name": "FluxFM XJAZZ",
-    "url": "https://streams.fluxfm.de/xjazz/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/xjazz/mp3-128/audio/"
   },
   {
     "name": "FluxFM JaegerMusic Radio",
-    "url": "https://streams.fluxfm.de/studio56/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/studio56/mp3-128/audio/"
   },
   {
     "name": "FluxFM Sound Of Berlin",
-    "url": "https://streams.fluxfm.de/soundofberlin/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/soundofberlin/mp3-128/audio/"
   },
   {
     "name": "FluxFM FluxForward",
-    "url": "https://streams.fluxfm.de/forward/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/forward/mp3-128/audio/"
   },
   {
     "name": "FluxFM Techno Underground",
-    "url": "https://streams.fluxfm.de/technoug/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/technoug/mp3-128/audio/"
   },
   {
     "name": "FluxFM Berlin Beach House Radio",
-    "url": "https://streams.fluxfm.de/bbeachhouse/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/bbeachhouse/mp3-128/audio/"
   },
   {
     "name": "FluxFM Hippie Trippy Garden Pretty",
-    "url": "https://streams.fluxfm.de/event02/mp3-128/radiode/"
+    "url": "http://streams.fluxfm.de/event02/mp3-128/radiode/"
   },
   {
     "name": "FluxFM ElektroFlux",
-    "url": "https://streams.fluxfm.de/elektro/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/elektro/mp3-128/audio/"
   },
   {
     "name": "FluxFM Ohrspiel",
-    "url": "https://streams.fluxfm.de/ohrspiel/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/ohrspiel/mp3-128/audio/"
   },
   {
     "name": "FluxFM XRadio",
-    "url": "https://streams.fluxfm.de/90er/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/90er/mp3-128/audio/"
   },
   {
     "name": "FluxFM 80s",
-    "url": "https://streams.fluxfm.de/80er/mp3-128/streams.fluxfm.de/"
+    "url": "http://streams.fluxfm.de/80er/mp3-128/streams.fluxfm.de/"
   },
   {
     "name": "FluxFM 70s",
-    "url": "https://streams.fluxfm.de/70er/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/70er/mp3-128/audio/"
   },
   {
     "name": "FluxFM Passport Approved",
-    "url": "https://streams.fluxfm.de/passport/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/passport/mp3-128/audio/"
   },
   {
     "name": "FluxFM Mobys Vegan Radio",
-    "url": "https://streams.fluxfm.de/event01/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/event01/mp3-128/audio/"
   },
   {
     "name": "FluxFM John Reed Radio",
-    "url": "https://streams.fluxfm.de/john-reed/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/john-reed/mp3-128/audio/"
   },
   {
     "name": "FluxFM Jazzradio Schwarzenstein",
-    "url": "https://streams.fluxfm.de/jazzschwarz/mp3-128/audio/"
+    "url": "http://streams.fluxfm.de/jazzschwarz/mp3-128/audio/"
   },
   {
     "name": "FluxFM BoomFM Classics",
-    "url": "https://streams.fluxfm.de/boomfmclassics/mp3-320/audio/"
+    "url": "http://streams.fluxfm.de/boomfmclassics/mp3-320/audio/"
   },
   {
     "name": "Freier Sender Kombinat",
-    "url": "https://stream.fsk-hh.org:8000/fsk.ogg.m3u"
+    "url": "http://stream.fsk-hh.org:8000/fsk.ogg.m3u"
   },
   {
     "name": "Freies Radio Stuttgart",
-    "url": "https://streaming.fueralle.org:8000/frs-hi.mp3.m3u"
+    "url": "http://streaming.fueralle.org:8000/frs-hi.mp3.m3u"
   },
   {
     "name": "Freies Radio Wueste Welle",
-    "url": "https://livestream.wueste-welle.de:8000/ogg.m3u"
+    "url": "http://livestream.wueste-welle.de:8000/ogg.m3u"
   },
   {
     "name": "HR2",
@@ -573,179 +573,179 @@
   },
   {
     "name": "Hit Radio FFH",
-    "url": "https://mp3.ffh.de/radioffh/hqlivestream.mp3"
+    "url": "http://mp3.ffh.de/radioffh/hqlivestream.mp3"
   },
   {
     "name": "FFHPlus 80er",
-    "url": "https://mp3.ffh.de/ffhplus/hq80er.mp3"
+    "url": "http://mp3.ffh.de/ffhplus/hq80er.mp3"
   },
   {
     "name": "FFHPlus 90er",
-    "url": "https://streams.ffh.de/ffhplus/mp3/hq90er.m3u"
+    "url": "http://streams.ffh.de/ffhplus/mp3/hq90er.m3u"
   },
   {
     "name": "FFHPlus Charts",
-    "url": "https://mp3.ffh.de/ffhplus/hqcharts.mp3"
+    "url": "http://mp3.ffh.de/ffhplus/hqcharts.mp3"
   },
   {
     "name": "FFHPlus Rock",
-    "url": "https://mp3.ffh.de/ffhplus/hqrock.mp3"
+    "url": "http://mp3.ffh.de/ffhplus/hqrock.mp3"
   },
   {
     "name": "FFH Fruehlings Feeling",
-    "url": "https://mp3.ffh.de/ffhchannels/hqfruehlingsfeeling.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqfruehlingsfeeling.mp3"
   },
   {
     "name": "FFH Happy Hits",
-    "url": "https://mp3.ffh.de/ffhchannels/hqhappyhits.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqhappyhits.mp3"
   },
   {
     "name": "FFH Chill And Grill",
-    "url": "https://mp3.ffh.de/ffhchannels/hqchillandgrill.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqchillandgrill.mp3"
   },
   {
     "name": "FFH Leider Geil",
-    "url": "https://mp3.ffh.de/ffhchannels/hqvoting.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqvoting.mp3"
   },
   {
     "name": "FFH Kuschelrock",
-    "url": "https://mp3.ffh.de/ffhchannels/hqkuschelrock.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqkuschelrock.mp3"
   },
   {
     "name": "FFH Kuschelpop",
-    "url": "https://mp3.ffh.de/ffhchannels/hqkuschelpop.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqkuschelpop.mp3"
   },
   {
     "name": "FFH Just White",
-    "url": "https://mp3.ffh.de/ffhchannels/hqjustwhite.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqjustwhite.mp3"
   },
   {
     "name": "FFH Top1000",
-    "url": "https://mp3.ffh.de/ffhchannels/hqtop1000.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqtop1000.mp3"
   },
   {
     "name": "FFH Oldies",
-    "url": "https://mp3.ffh.de/ffhchannels/hqoldies.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqoldies.mp3"
   },
   {
     "name": "FFH Top40",
-    "url": "https://mp3.ffh.de/ffhchannels/hqtop40.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqtop40.mp3"
   },
   {
     "name": "FFH Party",
-    "url": "https://mp3.ffh.de/ffhchannels/hqparty.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqparty.mp3"
   },
   {
     "name": "FFH Best of 2022",
-    "url": "https://mp3.ffh.de/ffhchannels/hqbestof.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqbestof.mp3"
   },
   {
     "name": "FFH Die 80er",
-    "url": "https://mp3.ffh.de/ffhchannels/hq80er.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hq80er.mp3"
   },
   {
     "name": "FFH Just 90s",
-    "url": "https://mp3.ffh.de/ffhchannels/hq90er.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hq90er.mp3"
   },
   {
     "name": "FFH Die 2000er",
-    "url": "https://mp3.ffh.de/ffhchannels/hq2000er.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hq2000er.mp3"
   },
   {
     "name": "FFH Die 2010er",
-    "url": "https://mp3.ffh.de/ffhchannels/hq2010er.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hq2010er.mp3"
   },
   {
     "name": "FFH Summer Feeling",
-    "url": "https://mp3.ffh.de/ffhchannels/hqsummerfeeling.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqsummerfeeling.mp3"
   },
   {
     "name": "FFH Eurodance",
-    "url": "https://mp3.ffh.de/ffhchannels/hqeurodance.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqeurodance.mp3"
   },
   {
     "name": "FFH Rock",
-    "url": "https://mp3.ffh.de/ffhchannels/hqrock.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqrock.mp3"
   },
   {
     "name": "FFH Workout",
-    "url": "https://mp3.ffh.de/ffhchannels/hqworkout.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqworkout.mp3"
   },
   {
     "name": "FFH Schlagerkult",
-    "url": "https://mp3.ffh.de/ffhchannels/hqschlager.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqschlager.mp3"
   },
   {
     "name": "FFH Deutsch Pur",
-    "url": "https://mp3.ffh.de/ffhchannels/hqdeutsch.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqdeutsch.mp3"
   },
   {
     "name": "FFH Brandneu",
-    "url": "https://mp3.ffh.de/ffhchannels/hqbrandneu.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqbrandneu.mp3"
   },
   {
     "name": "FFH Lounge",
-    "url": "https://mp3.ffh.de/ffhchannels/hqlounge.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqlounge.mp3"
   },
   {
     "name": "FFH Acoustic Hits",
-    "url": "https://mp3.ffh.de/ffhchannels/hqacoustichits.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqacoustichits.mp3"
   },
   {
     "name": "FFH Soundtrack",
-    "url": "https://mp3.ffh.de/ffhchannels/hqsoundtrack.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqsoundtrack.mp3"
   },
   {
     "name": "FFHPlus Weihnachten",
-    "url": "https://mp3.ffh.de/ffhplus/hqxmas.mp3"
+    "url": "http://mp3.ffh.de/ffhplus/hqxmas.mp3"
   },
   {
     "name": "FFH Weihnachtsradio",
-    "url": "https://mp3.ffh.de/ffhchannels/hqxmas.mp3"
+    "url": "http://mp3.ffh.de/ffhchannels/hqxmas.mp3"
   },
   {
     "name": "JAM FM",
-    "url": "https://stream.jam.fm/jamfm-live/mp3-192"
+    "url": "http://stream.jam.fm/jamfm-live/mp3-192"
   },
   {
     "name": "JAM FM 90er",
-    "url": "https://stream.jam.fm/90er/mp3-192/"
+    "url": "http://stream.jam.fm/90er/mp3-192/"
   },
   {
     "name": "JAM FM 2000er",
-    "url": "https://stream.jam.fm/2000er/mp3-192/"
+    "url": "http://stream.jam.fm/2000er/mp3-192/"
   },
   {
     "name": "JAM FM 2010er",
-    "url": "https://stream.jam.fm/2010er/mp3-192/"
+    "url": "http://stream.jam.fm/2010er/mp3-192/"
   },
   {
     "name": "JAM FM Charts",
-    "url": "https://stream.jam.fm/charts"
+    "url": "http://stream.jam.fm/charts"
   },
   {
     "name": "JAM FM NMR",
-    "url": "https://stream.jam.fm/jamfm-nmr"
+    "url": "http://stream.jam.fm/jamfm-nmr"
   },
   {
     "name": "JAM FM BL",
-    "url": "https://stream.jam.fm/jamfm-bl"
+    "url": "http://stream.jam.fm/jamfm-bl"
   },
   {
     "name": "JAM FM Elektro",
-    "url": "https://stream.jam.fm/elektro"
+    "url": "http://stream.jam.fm/elektro"
   },
   {
     "name": "JAM FM Rap",
-    "url": "https://stream.jam.fm/rap"
+    "url": "http://stream.jam.fm/rap"
   },
   {
     "name": "JAM FM Deutschrap",
-    "url": "https://stream.jam.fm/deutschrap"
+    "url": "http://stream.jam.fm/deutschrap"
   },
   {
     "name": "JAM FM Party",
-    "url": "https://stream.jam.fm/party"
+    "url": "http://stream.jam.fm/party"
   },
   {
     "name": "Hitradio RT1 Augsburg",
@@ -845,51 +845,51 @@
   },
   {
     "name": "MDR Aktuell",
-    "url": "https://mdr-284340-0.cast.mdr.de/mdr/284340/0/mp3/high/stream.mp3"
+    "url": "http://mdr-284340-0.cast.mdr.de/mdr/284340/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR JUMP",
-    "url": "https://mdr-284320-0.cast.mdr.de/mdr/284320/0/mp3/high/stream.mp3"
+    "url": "http://mdr-284320-0.cast.mdr.de/mdr/284320/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR KLASSIK",
-    "url": "https://mdr-284350-0.cast.mdr.de/mdr/284350/0/mp3/high/stream.mp3"
+    "url": "http://mdr-284350-0.cast.mdr.de/mdr/284350/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR KULTUR",
-    "url": "https://mdr-284310-0.cast.mdr.de/mdr/284310/0/mp3/high/stream.mp3"
+    "url": "http://mdr-284310-0.cast.mdr.de/mdr/284310/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR Sachsen",
-    "url": "https://mdr-284280-0.cast.mdr.de/mdr/284280/0/mp3/high/stream.mp3"
+    "url": "http://mdr-284280-0.cast.mdr.de/mdr/284280/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR Sachsen Sorbisches Programm",
-    "url": "https://mdr-990100-0.cast.mdr.de/mdr/990100/0/mp3/high/stream.mp3"
+    "url": "http://mdr-990100-0.cast.mdr.de/mdr/990100/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR SachsenAnhalt",
-    "url": "https://mdr-284290-3.cast.mdr.de/mdr/284290/3/mp3/high/stream.mp3"
+    "url": "http://mdr-284290-3.cast.mdr.de/mdr/284290/3/mp3/high/stream.mp3"
   },
   {
     "name": "MDR Schlagerwelt Sachsen",
-    "url": "https://mdr-990801-0.cast.mdr.de/mdr/990801/0/mp3/high/stream.mp3"
+    "url": "http://mdr-990801-0.cast.mdr.de/mdr/990801/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR Sputnik",
-    "url": "https://mdr-284330-0.cast.mdr.de/mdr/284330/0/mp3/high/stream.mp3"
+    "url": "http://mdr-284330-0.cast.mdr.de/mdr/284330/0/mp3/high/stream.mp3"
   },
   {
     "name": "MDR Thueringen",
-    "url": "https://mdr-284300-3.cast.mdr.de/mdr/284300/3/mp3/high/stream.mp3"
+    "url": "http://mdr-284300-3.cast.mdr.de/mdr/284300/3/mp3/high/stream.mp3"
   },
   {
     "name": "MDR Tweens",
-    "url": "https://mdr-991101-0.cast.mdr.de/mdr/991101/0/mp3/high/stream.mp3"
+    "url": "http://mdr-991101-0.cast.mdr.de/mdr/991101/0/mp3/high/stream.mp3"
   },
   {
     "name": "NDR1 Niedersachsen Hannover",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndr1niedersachsen.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndr1niedersachsen.m3u"
   },
   {
     "name": "NDR1 Niedersachsen Braunschweig",
@@ -925,11 +925,11 @@
   },
   {
     "name": "NDR 90 3",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndr903.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndr903.m3u"
   },
   {
     "name": "NDR1 Welle Nord Kiel",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndr1wellenord.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndr1wellenord.m3u"
   },
   {
     "name": "NDR1 Welle Nord Flensburg",
@@ -949,7 +949,7 @@
   },
   {
     "name": "NDR2 Niedersachsen",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u"
   },
   {
     "name": "NDR2 Hamburg",
@@ -965,11 +965,11 @@
   },
   {
     "name": "NDR Kultur",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndrkultur.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndrkultur.m3u"
   },
   {
     "name": "NDR Info Niedersachsen",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndrinfo.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndrinfo.m3u"
   },
   {
     "name": "NDR Info Hamburg",
@@ -989,11 +989,11 @@
   },
   {
     "name": "NJoy",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/n-joy.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/n-joy.m3u"
   },
   {
     "name": "NDR Blue",
-    "url": "https://www.ndr.de/resources/metadaten/audio/m3u/ndrblue.m3u"
+    "url": "http://www.ndr.de/resources/metadaten/audio/m3u/ndrblue.m3u"
   },
   {
     "name": "NDR Schlager",
@@ -1049,231 +1049,231 @@
   },
   {
     "name": "Ostseewelle Hit Radio MecklenburgVorpommern 80er",
-    "url": "https://streamosw.ir-media-tec.com/80er/mp3-128/web/"
+    "url": "http://streamosw.ir-media-tec.com/80er/mp3-128/web/"
   },
   {
     "name": "Ostseewelle Hit Radio MecklenburgVorpommern 90er",
-    "url": "https://streamosw.ir-media-tec.com/90er/mp3-128/web/"
+    "url": "http://streamosw.ir-media-tec.com/90er/mp3-128/web/"
   },
   {
     "name": "R.SA Sachsen",
-    "url": "https://streams.rsa-sachsen.de/rsa-live/mp3-192/mediaplayerrsa"
+    "url": "http://streams.rsa-sachsen.de/rsa-live/mp3-192/mediaplayerrsa"
   },
   {
     "name": "R.SA Sachsen Beatles Stream",
-    "url": "https://streams.rsa-sachsen.de/rsa-beatles/mp3-192/mediaplayerrsa"
+    "url": "http://streams.rsa-sachsen.de/rsa-beatles/mp3-192/mediaplayerrsa"
   },
   {
     "name": "R.SA Sachsen Hinhoerkanal",
-    "url": "https://streams.rsa-sachsen.de/rsa-hinhoer/mp3-192/mediaplayerrsa"
+    "url": "http://streams.rsa-sachsen.de/rsa-hinhoer/mp3-192/mediaplayerrsa"
   },
   {
     "name": "R.SA Sachsen Ostrock Stream",
-    "url": "https://streams.rsa-sachsen.de/rsa-ostrock/mp3-192/mediaplayerrsa"
+    "url": "http://streams.rsa-sachsen.de/rsa-ostrock/mp3-192/mediaplayerrsa"
   },
   {
     "name": "R.SA Sachsen Rockzirkus",
-    "url": "https://streams.rsa-sachsen.de/rsa-rockzirkus/mp3-192/mediaplayerrsa"
+    "url": "http://streams.rsa-sachsen.de/rsa-rockzirkus/mp3-192/mediaplayerrsa"
   },
   {
     "name": "R.SA Sachsen OldieClub",
-    "url": "https://streams.rsa-sachsen.de/rsa-oldies/mp3-192/mediaplayerrsa"
+    "url": "http://streams.rsa-sachsen.de/rsa-oldies/mp3-192/mediaplayerrsa"
   },
   {
     "name": "R.SA Sachsen Maxis Maximal",
-    "url": "https://streams.rsa-sachsen.de/maxis/mp3-192/mediaplayerrsa/"
+    "url": "http://streams.rsa-sachsen.de/maxis/mp3-192/mediaplayerrsa/"
   },
   {
     "name": "R.SA Sachsen Partywelle",
-    "url": "https://streams.rsa-sachsen.de/rsa-partywelle/mp3-192/mediaplayerrsa/"
+    "url": "http://streams.rsa-sachsen.de/rsa-partywelle/mp3-192/mediaplayerrsa/"
   },
   {
     "name": "Radio Bob",
-    "url": "https://streams.radiobob.de/bob-live/aac-64/mediaplayer"
+    "url": "http://streams.radiobob.de/bob-live/aac-64/mediaplayer"
   },
   {
     "name": "Radio Bob Event 100",
-    "url": "https://streams.radiobob.de/100/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/100/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Event 101",
-    "url": "https://streams.radiobob.de/101/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/101/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob 80er Rock",
-    "url": "https://streams.radiobob.de/bob-80srock/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-80srock/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob 90er Rock",
-    "url": "https://streams.radiobob.de/bob-90srock/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-90srock/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob ACDC Collection",
-    "url": "https://streams.radiobob.de/bob-acdc/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-acdc/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Alternative Rock",
-    "url": "https://streams.radiobob.de/bob-alternative/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-alternative/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Best of Rock",
-    "url": "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Chillout Unplugged",
-    "url": "https://streams.radiobob.de/bob-chillout/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-chillout/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Christmas Rock",
-    "url": "https://streams.radiobob.de/bob-christmas/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-christmas/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Classic Rock",
-    "url": "https://streams.radiobob.de/bob-classicrock/mp3-192/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-classicrock/mp3-192/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Deutsch Rock",
-    "url": "https://streams.radiobob.de/bob-deutsch/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-deutsch/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Festival Stream",
-    "url": "https://streams.radiobob.de/bob-festival/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-festival/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Grunge",
-    "url": "https://streams.radiobob.de/bob-grunge/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-grunge/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Hardrock",
-    "url": "https://streams.radiobob.de/bob-hardrock/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-hardrock/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Harte Saite",
-    "url": "https://streams.radiobob.de/bob-hartesaite/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-hartesaite/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Kuschelrock",
-    "url": "https://streams.radiobob.de/bob-kuschelrock/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-kuschelrock/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Metal",
-    "url": "https://streams.radiobob.de/bob-metal/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-metal/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob National",
-    "url": "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Punk",
-    "url": "https://streams.radiobob.de/bob-punk/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-punk/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Queen",
-    "url": "https://streams.radiobob.de/bob-queen/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-queen/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Rockabilly",
-    "url": "https://streams.radiobob.de/bob-rockabilly/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-rockabilly/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Rock Hits",
-    "url": "https://streams.radiobob.de/bob-rockhits/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-rockhits/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob rockt SchleswigHolstein",
-    "url": "https://streams.radiobob.de/bob-shlive/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-shlive/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Singer and Songwriter",
-    "url": "https://streams.radiobob.de/bob-singersong/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-singersong/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Wacken Nonstop",
-    "url": "https://streams.radiobob.de/bob-wacken/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-wacken/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob BossHoss Rockshow",
-    "url": "https://streams.radiobob.de/bosshoss/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bosshoss/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Death Metal",
-    "url": "https://streams.radiobob.de/deathmetal/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/deathmetal/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Fury in the Slaughterhouse",
-    "url": "https://streams.radiobob.de/fury/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/fury/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Gothic Rock",
-    "url": "https://streams.radiobob.de/gothic/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/gothic/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Metalcore",
-    "url": "https://streams.radiobob.de/metalcore/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/metalcore/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Metallica",
-    "url": "https://streams.radiobob.de/metallica/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/metallica/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Mittelalter Rock",
-    "url": "https://streams.radiobob.de/mittelalter/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/mittelalter/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Newcomer",
-    "url": "https://streams.radiobob.de/newcomer/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/newcomer/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Dunkle Parabel Ritter",
-    "url": "https://streams.radiobob.de/ritter/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/ritter/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Rockparty",
-    "url": "https://streams.radiobob.de/rockparty/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/rockparty/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Tobias Sammet",
-    "url": "https://streams.radiobob.de/sammet/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/sammet/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Southern Rock",
-    "url": "https://streams.radiobob.de/southernrock/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/southernrock/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Symphonic Metal",
-    "url": "https://streams.radiobob.de/symphmetal/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/symphmetal/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream",
-    "url": "https://streams.radiobob.de/bob-live/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/bob-live/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream Hessen Mitte",
-    "url": "https://streams.radiobob.de/live-hessen-mitte/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-hessen-mitte/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream National Mitte",
-    "url": "https://streams.radiobob.de/live-national-mitte/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-national-mitte/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream NRW",
-    "url": "https://streams.radiobob.de/live-nrw-mitte/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-nrw-mitte/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream SH Mitte",
-    "url": "https://streams.radiobob.de/live-sh-mitte/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-sh-mitte/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream SH Nordwest",
-    "url": "https://streams.radiobob.de/live-sh-nordwest/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-sh-nordwest/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream SH Ost",
-    "url": "https://streams.radiobob.de/live-sh-ost/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-sh-ost/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bob Livestream SH Sued",
-    "url": "https://streams.radiobob.de/live-sh-sued/mp3-128/streams.radiobob.de/"
+    "url": "http://streams.radiobob.de/live-sh-sued/mp3-128/streams.radiobob.de/"
   },
   {
     "name": "Radio Bremen Eins",
@@ -1293,7 +1293,7 @@
   },
   {
     "name": "Radio Charivari Muenchen",
-    "url": "https://www.charivari.de/webradio/r8082.m3u"
+    "url": "http://www.charivari.de/webradio/r8082.m3u"
   },
   {
     "name": "Radio Lausitz",
@@ -1301,399 +1301,399 @@
   },
   {
     "name": "Radio Lausitz Xmas",
-    "url": "https://streaming.radiolausitz.de/radio-lausitz_XMAS_192k_mp3"
+    "url": "http://streaming.radiolausitz.de/radio-lausitz_XMAS_192k_mp3"
   },
   {
     "name": "Radio Lausitz 80er",
-    "url": "https://streaming.radiolausitz.de/radio-lausitz_80er_192k_mp3"
+    "url": "http://streaming.radiolausitz.de/radio-lausitz_80er_192k_mp3"
   },
   {
     "name": "Radio Lausitz 90er",
-    "url": "https://streaming.radiolausitz.de/radio-lausitz_90er_192k_mp3"
+    "url": "http://streaming.radiolausitz.de/radio-lausitz_90er_192k_mp3"
   },
   {
     "name": "Antenne AC",
-    "url": "https://mp3.antenneac.c.nmdn.net/ps-antenneac/livestream.mp3"
+    "url": "http://mp3.antenneac.c.nmdn.net/ps-antenneac/livestream.mp3"
   },
   {
     "name": "NE WS",
-    "url": "https://mp3.news894.c.nmdn.net/news894/livestream.mp3"
+    "url": "http://mp3.news894.c.nmdn.net/news894/livestream.mp3"
   },
   {
     "name": "Radio Koeln",
-    "url": "https://mp3.radiokoeln.c.nmdn.net/ps-radiokoeln/livestream.mp3"
+    "url": "http://mp3.radiokoeln.c.nmdn.net/ps-radiokoeln/livestream.mp3"
   },
   {
     "name": "Rock Antenne Alternative",
-    "url": "https://mp3channels.webradio.rockantenne.de/alternative"
+    "url": "http://mp3channels.webradio.rockantenne.de/alternative"
   },
   {
     "name": "Rock Antenne Classic Perlen",
-    "url": "https://mp3channels.webradio.rockantenne.de/classic-perlen"
+    "url": "http://mp3channels.webradio.rockantenne.de/classic-perlen"
   },
   {
     "name": "Rock Antenne Heavy Metal",
-    "url": "https://mp3channels.webradio.rockantenne.de/heavy-metal"
+    "url": "http://mp3channels.webradio.rockantenne.de/heavy-metal"
   },
   {
     "name": "rbb Antenne Brandenburg",
-    "url": "https://antennebrandenburg.de/livemp3"
+    "url": "http://antennebrandenburg.de/livemp3"
   },
   {
     "name": "rbb 88 8 Berlin",
-    "url": "https://rbb888.de/livemp3"
+    "url": "http://rbb888.de/livemp3"
   },
   {
     "name": "rbb Fritz",
-    "url": "https://fritz.de/livemp3"
+    "url": "http://fritz.de/livemp3"
   },
   {
     "name": "rbb 24 Inforadio",
-    "url": "https://inforadio.de/livemp3"
+    "url": "http://inforadio.de/livemp3"
   },
   {
     "name": "rbb Kultur",
-    "url": "https://rbbkultur.de/livemp3"
+    "url": "http://rbbkultur.de/livemp3"
   },
   {
     "name": "Sunshine Live",
-    "url": "https://stream.sunshine-live.de/live/mp3-192"
+    "url": "http://stream.sunshine-live.de/live/mp3-192"
   },
   {
     "name": "Sunshine Live House",
-    "url": "https://stream.sunshine-live.de/house/mp3-192"
+    "url": "http://stream.sunshine-live.de/house/mp3-192"
   },
   {
     "name": "Sunshine Live EDM",
-    "url": "https://stream.sunshine-live.de/edm/mp3-192"
+    "url": "http://stream.sunshine-live.de/edm/mp3-192"
   },
   {
     "name": "Sunshine Live Classics",
-    "url": "https://stream.sunshine-live.de/classics/mp3-192"
+    "url": "http://stream.sunshine-live.de/classics/mp3-192"
   },
   {
     "name": "Sunshine Live Trance",
-    "url": "https://stream.sunshine-live.de/trance/mp3-192"
+    "url": "http://stream.sunshine-live.de/trance/mp3-192"
   },
   {
     "name": "Sunshine Live Hard",
-    "url": "https://stream.sunshine-live.de/hard/mp3-192"
+    "url": "http://stream.sunshine-live.de/hard/mp3-192"
   },
   {
     "name": "Sunshine Live Techno",
-    "url": "https://stream.sunshine-live.de/techno/mp3-192"
+    "url": "http://stream.sunshine-live.de/techno/mp3-192"
   },
   {
     "name": "Sunshine Live Lounge",
-    "url": "https://stream.sunshine-live.de/lounge/mp3-192"
+    "url": "http://stream.sunshine-live.de/lounge/mp3-192"
   },
   {
     "name": "Sunshine Live 90er",
-    "url": "https://stream.sunshine-live.de/90er/mp3-192"
+    "url": "http://stream.sunshine-live.de/90er/mp3-192"
   },
   {
     "name": "Sunshine Live Festival",
-    "url": "https://stream.sunshine-live.de/festival/mp3-192"
+    "url": "http://stream.sunshine-live.de/festival/mp3-192"
   },
   {
     "name": "Sunshine Live DNB",
-    "url": "https://stream.sunshine-live.de/dnb/mp3-192"
+    "url": "http://stream.sunshine-live.de/dnb/mp3-192"
   },
   {
     "name": "Sunshine Live Handsup",
-    "url": "https://stream.sunshine-live.de/handsup/mp3-192"
+    "url": "http://stream.sunshine-live.de/handsup/mp3-192"
   },
   {
     "name": "Sunshine Live Mayday",
-    "url": "https://stream.sunshine-live.de/mayday/mp3-192"
+    "url": "http://stream.sunshine-live.de/mayday/mp3-192"
   },
   {
     "name": "Sunshine Live Natureone",
-    "url": "https://stream.sunshine-live.de/natureone/mp3-192"
+    "url": "http://stream.sunshine-live.de/natureone/mp3-192"
   },
   {
     "name": "Sunshine Live Timewarp",
-    "url": "https://stream.sunshine-live.de/timewarp/mp3-192"
+    "url": "http://stream.sunshine-live.de/timewarp/mp3-192"
   },
   {
     "name": "Sunshine Live Relax",
-    "url": "https://stream.sunshine-live.de/relax/mp3-192"
+    "url": "http://stream.sunshine-live.de/relax/mp3-192"
   },
   {
     "name": "Sunshine Live 80er",
-    "url": "https://stream.sunshine-live.de/80er/mp3-192"
+    "url": "http://stream.sunshine-live.de/80er/mp3-192"
   },
   {
     "name": "Sunshine Live 2000er",
-    "url": "https://stream.sunshine-live.de/2000er/mp3-192"
+    "url": "http://stream.sunshine-live.de/2000er/mp3-192"
   },
   {
     "name": "Sunshine Live Chillout",
-    "url": "https://stream.sunshine-live.de/sp8/mp3-192"
+    "url": "http://stream.sunshine-live.de/sp8/mp3-192"
   },
   {
     "name": "Sunshine Live Summer Beats",
-    "url": "https://stream.sunshine-live.de/sp2/mp3-192"
+    "url": "http://stream.sunshine-live.de/sp2/mp3-192"
   },
   {
     "name": "Sunshine Live Tech House",
-    "url": "https://stream.sunshine-live.de/sp4/mp3-192"
+    "url": "http://stream.sunshine-live.de/sp4/mp3-192"
   },
   {
     "name": "Sunshine Live 90s Anthems",
-    "url": "https://stream.sunshine-live.de/sp5/mp3-192"
+    "url": "http://stream.sunshine-live.de/sp5/mp3-192"
   },
   {
     "name": "Sunshine Live Charts",
-    "url": "https://stream.sunshine-live.de/sp6/mp3-192"
+    "url": "http://stream.sunshine-live.de/sp6/mp3-192"
   },
   {
     "name": "Sunshine Live Afterhour",
-    "url": "https://stream.sunshine-live.de/sp7/mp3-192"
+    "url": "http://stream.sunshine-live.de/sp7/mp3-192"
   },
   {
     "name": "Sunshine Live Avicii",
-    "url": "https://stream.sunshine-live.de/avicii/mp3-192"
+    "url": "http://stream.sunshine-live.de/avicii/mp3-192"
   },
   {
     "name": "Sunshine Live Vocalhouse",
-    "url": "https://stream.sunshine-live.de/vocalhouse/mp3-192"
+    "url": "http://stream.sunshine-live.de/vocalhouse/mp3-192"
   },
   {
     "name": "Sunshine Live Tropicalhouse",
-    "url": "https://stream.sunshine-live.de/tropicalhouse/mp3-192"
+    "url": "http://stream.sunshine-live.de/tropicalhouse/mp3-192"
   },
   {
     "name": "Sunshine Live Pride",
-    "url": "https://stream.sunshine-live.de/pride/mp3-192"
+    "url": "http://stream.sunshine-live.de/pride/mp3-192"
   },
   {
     "name": "Sunshine Live Prodigy",
-    "url": "https://stream.sunshine-live.de/prodigy/mp3-192"
+    "url": "http://stream.sunshine-live.de/prodigy/mp3-192"
   },
   {
     "name": "Sunshine Live Focus",
-    "url": "https://stream.sunshine-live.de/focus/mp3-192"
+    "url": "http://stream.sunshine-live.de/focus/mp3-192"
   },
   {
     "name": "Sunshine Live Winter Chill",
-    "url": "https://stream.sunshine-live.de/winterchill/mp3-192"
+    "url": "http://stream.sunshine-live.de/winterchill/mp3-192"
   },
   {
     "name": "Sunshine Live I am raving",
-    "url": "https://stream.sunshine-live.de/iamraving/mp3-192"
+    "url": "http://stream.sunshine-live.de/iamraving/mp3-192"
   },
   {
     "name": "Sunshine Live Techno Queens",
-    "url": "https://stream.sunshine-live.de/technoqueens/mp3-192"
+    "url": "http://stream.sunshine-live.de/technoqueens/mp3-192"
   },
   {
     "name": "Sunshine Live Depeche Mode",
-    "url": "https://stream.sunshine-live.de/depechemode/mp3-192"
+    "url": "http://stream.sunshine-live.de/depechemode/mp3-192"
   },
   {
     "name": "Sunshine Live Melodic Beats",
-    "url": "https://stream.sunshine-live.de/melodic-live/mp3-192"
+    "url": "http://stream.sunshine-live.de/melodic-live/mp3-192"
   },
   {
     "name": "Sunshine Live Bunker",
-    "url": "https://stream.sunshine-live.de/amsterdam/mp3-192"
+    "url": "http://stream.sunshine-live.de/amsterdam/mp3-192"
   },
   {
     "name": "Sunshine Live Psytrance",
-    "url": "https://stream.sunshine-live.de/xmas/mp3-192"
+    "url": "http://stream.sunshine-live.de/xmas/mp3-192"
   },
   {
     "name": "Sunshine Live Ibiza",
-    "url": "https://stream.sunshine-live.de/ibiza/mp3-192"
+    "url": "http://stream.sunshine-live.de/ibiza/mp3-192"
   },
   {
     "name": "Sunshine Live Twenty",
-    "url": "https://stream.sunshine-live.de/twenty/mp3-192"
+    "url": "http://stream.sunshine-live.de/twenty/mp3-192"
   },
   {
     "name": "Sunshine Live Eurodance",
-    "url": "https://stream.sunshine-live.de/eurodance/mp3-192"
+    "url": "http://stream.sunshine-live.de/eurodance/mp3-192"
   },
   {
     "name": "Sunshine Live Remix",
-    "url": "https://stream.sunshine-live.de/germante/mp3-192"
+    "url": "http://stream.sunshine-live.de/germante/mp3-192"
   },
   {
     "name": "Sunshine Live Melodic Techno",
-    "url": "https://stream.sunshine-live.de/melodic-techno/mp3-192"
+    "url": "http://stream.sunshine-live.de/melodic-techno/mp3-192"
   },
   {
     "name": "Sunshine Live Gaming",
-    "url": "https://stream.sunshine-live.de/gamescom/mp3-192"
+    "url": "http://stream.sunshine-live.de/gamescom/mp3-192"
   },
   {
     "name": "Sunshine Live Party",
-    "url": "https://stream.sunshine-live.de/party/mp3-192"
+    "url": "http://stream.sunshine-live.de/party/mp3-192"
   },
   {
     "name": "Sunshine Live Clubsound Berlin",
-    "url": "https://stream.sunshine-live.de/playlist1/mp3-192"
+    "url": "http://stream.sunshine-live.de/playlist1/mp3-192"
   },
   {
     "name": "Sunshine Live Workout",
-    "url": "https://stream.sunshine-live.de/workout/mp3-192"
+    "url": "http://stream.sunshine-live.de/workout/mp3-192"
   },
   {
     "name": "Sunshine Live Futurebass",
-    "url": "https://stream.sunshine-live.de/futurebass/mp3-192"
+    "url": "http://stream.sunshine-live.de/futurebass/mp3-192"
   },
   {
     "name": "Sunshine Live Newhits",
-    "url": "https://stream.sunshine-live.de/newhits/mp3-192"
+    "url": "http://stream.sunshine-live.de/newhits/mp3-192"
   },
   {
     "name": "Sunshine Live Love",
-    "url": "https://stream.sunshine-live.de/love/mp3-192"
+    "url": "http://stream.sunshine-live.de/love/mp3-192"
   },
   {
     "name": "Sunshine Live Backstage",
-    "url": "https://stream.sunshine-live.de/backstage/mp3-192"
+    "url": "http://stream.sunshine-live.de/backstage/mp3-192"
   },
   {
     "name": "SR1",
-    "url": "https://streaming01.sr-online.de/sr1_2.m3u"
+    "url": "http://streaming01.sr-online.de/sr1_2.m3u"
   },
   {
     "name": "SR1 LikeOMat",
-    "url": "https://streaming02.sr-online.de/sr1like-o-mat.m3u"
+    "url": "http://streaming02.sr-online.de/sr1like-o-mat.m3u"
   },
   {
     "name": "SR1 Lounge",
-    "url": "https://streaming02.sr-online.de/sr1lounge.m3u"
+    "url": "http://streaming02.sr-online.de/sr1lounge.m3u"
   },
   {
     "name": "SR2",
-    "url": "https://streaming01.sr-online.de/sr2_2.m3u"
+    "url": "http://streaming01.sr-online.de/sr2_2.m3u"
   },
   {
     "name": "SR2 Offbeat",
-    "url": "https://streaming02.sr-online.de/sr2offbeat.m3u"
+    "url": "http://streaming02.sr-online.de/sr2offbeat.m3u"
   },
   {
     "name": "SR3",
-    "url": "https://streaming01.sr-online.de/sr3_2.m3u"
+    "url": "http://streaming01.sr-online.de/sr3_2.m3u"
   },
   {
     "name": "SR3 Oldiewelt",
-    "url": "https://streaming02.sr-online.de/sr3oldiewelt.m3u"
+    "url": "http://streaming02.sr-online.de/sr3oldiewelt.m3u"
   },
   {
     "name": "SR3 Schlagerwelt",
-    "url": "https://streaming02.sr-online.de/sr3schlagerwelt.m3u"
+    "url": "http://streaming02.sr-online.de/sr3schlagerwelt.m3u"
   },
   {
     "name": "Antenne Saar",
-    "url": "https://streaming01.sr-online.de/antennesaar_2.m3u"
+    "url": "http://streaming01.sr-online.de/antennesaar_2.m3u"
   },
   {
     "name": "Unser Ding",
-    "url": "https://streaming01.sr-online.de/unserding_2.m3u"
+    "url": "http://streaming01.sr-online.de/unserding_2.m3u"
   },
   {
     "name": "Unser Ding Schwarz",
-    "url": "https://streaming02.sr-online.de/unserding-schwarz.m3u"
+    "url": "http://streaming02.sr-online.de/unserding-schwarz.m3u"
   },
   {
     "name": "Unser Ding Zukunft",
-    "url": "https://streaming02.sr-online.de/unserding-zukunft.m3u"
+    "url": "http://streaming02.sr-online.de/unserding-zukunft.m3u"
   },
   {
     "name": "1LIVE",
-    "url": "https://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE diggi",
-    "url": "https://wdr-1live-diggi.icecast.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-diggi.icecast.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE Plan B",
-    "url": "https://wdr-1live-planb.icecast.wdr.de/wdr/1live/planb/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-planb.icecast.wdr.de/wdr/1live/planb/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE DJ Session",
-    "url": "https://wdr-1live-djsession.icecast.wdr.de/wdr/1live/djsession/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-djsession.icecast.wdr.de/wdr/1live/djsession/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE Neu fuer den Sektor",
-    "url": "https://wdr-1live-neufuerdensektor.icecast.wdr.de/wdr/1live/neufuerdensektor/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-neufuerdensektor.icecast.wdr.de/wdr/1live/neufuerdensektor/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE HipHop",
-    "url": "https://wdr-1live-hiphop.icecast.wdr.de/wdr/1live/hiphop/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-hiphop.icecast.wdr.de/wdr/1live/hiphop/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE Specials",
-    "url": "https://wdr-1live-specials.icecast.wdr.de/wdr/1live/specials/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-specials.icecast.wdr.de/wdr/1live/specials/mp3/128/stream.mp3"
   },
   {
     "name": "1LIVE Klubbing",
-    "url": "https://www.wdr.de/wdrlive/media/1live_klubbing.m3u"
+    "url": "http://www.wdr.de/wdrlive/media/1live_klubbing.m3u"
   },
   {
     "name": "1LIVE Kassettendeck",
-    "url": "https://www.wdr.de/wdrlive/media/1live_kassettendeck.m3u"
+    "url": "http://www.wdr.de/wdrlive/media/1live_kassettendeck.m3u"
   },
   {
     "name": "1LIVE FIEHE",
-    "url": "https://wdr-1live-fiehe.icecast.wdr.de/wdr/1live/fiehe/mp3/128/stream.mp3"
+    "url": "http://wdr-1live-fiehe.icecast.wdr.de/wdr/1live/fiehe/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Rheinland",
-    "url": "https://wdr-wdr2-rheinland.icecast.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-rheinland.icecast.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Ostwestfalen",
-    "url": "https://wdr-wdr2-ostwestfalenlippe.icecast.wdr.de/wdr/wdr2/ostwestfalenlippe/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-ostwestfalenlippe.icecast.wdr.de/wdr/wdr2/ostwestfalenlippe/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Muensterland",
-    "url": "https://wdr-wdr2-muensterland.icecast.wdr.de/wdr/wdr2/muensterland/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-muensterland.icecast.wdr.de/wdr/wdr2/muensterland/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Ruhrgebiet",
-    "url": "https://wdr-wdr2-ruhrgebiet.icecast.wdr.de/wdr/wdr2/ruhrgebiet/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-ruhrgebiet.icecast.wdr.de/wdr/wdr2/ruhrgebiet/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Bergisches Land",
-    "url": "https://wdr-wdr2-bergischesland.icecast.wdr.de/wdr/wdr2/bergischesland/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-bergischesland.icecast.wdr.de/wdr/wdr2/bergischesland/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Suedwestfalen",
-    "url": "https://wdr-wdr2-suedwestfalen.icecast.wdr.de/wdr/wdr2/suedwestfalen/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-suedwestfalen.icecast.wdr.de/wdr/wdr2/suedwestfalen/mp3/128/stream.mp3"
   },
   {
     "name": "WDR2 Aachen",
-    "url": "https://wdr-wdr2-aachenundregion.icecast.wdr.de/wdr/wdr2/aachenundregion/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr2-aachenundregion.icecast.wdr.de/wdr/wdr2/aachenundregion/mp3/128/stream.mp3"
   },
   {
     "name": "WDR3",
-    "url": "https://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/128/stream.mp3"
   },
   {
     "name": "WDR3 HQ",
-    "url": "https://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/256/stream.mp3"
+    "url": "http://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/256/stream.mp3"
   },
   {
     "name": "WDR4",
-    "url": "https://wdr-wdr4-live.icecast.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr4-live.icecast.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3"
   },
   {
     "name": "WDR5",
-    "url": "https://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3"
   },
   {
     "name": "WDR Event",
-    "url": "https://wdr-wdr-event.icecast.wdr.de/wdr/wdr/event/mp3/128/stream.mp3"
+    "url": "http://wdr-wdr-event.icecast.wdr.de/wdr/wdr/event/mp3/128/stream.mp3"
   },
   {
     "name": "COSMO",
-    "url": "https://wdr-cosmo-live.icecast.wdr.de/wdr/cosmo/live/mp3/128/stream.mp3"
+    "url": "http://wdr-cosmo-live.icecast.wdr.de/wdr/cosmo/live/mp3/128/stream.mp3"
   },
   {
     "name": "WDR Die Maus",
